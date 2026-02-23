@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="mealio.client/mealio.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Mealio.Server/Mealio.Server.csproj" />
+</Solution>

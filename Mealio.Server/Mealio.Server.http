@@ -1,0 +1,6 @@
+@Mealio.Server_HostAddress = http://localhost:5031
+
+GET {{Mealio.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
