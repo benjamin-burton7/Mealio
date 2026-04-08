@@ -1,7 +1,19 @@
 # Mealio
 
+### Install Docker for Windows (if you haven't already)
+- Download and install Docker Desktop for Windows:  
+https://www.docker.com/products/docker-desktop  
+- During installation, enable WSL 2 backend (recommended).  
+- Start Docker Desktop and make sure it is running.  
+- Open a command prompt or PowerShell and verify:  
+
+```
+docker --version
+docker compose version
+```
+---
 ### Running the Docker Container
-- Run the line below in home Mealio folder,
+- Run the line below in home Mealio project folder,
 ``` 
 docker compose up --build
 ```
@@ -16,3 +28,4 @@ docker compose up --build
 ``` 
 docker compose logs  
 ```
+
