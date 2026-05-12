@@ -1,0 +1,54 @@
+name: Update Restaurant Menus
+
+on:
+  schedule:
+    - cron: "0 5 * * 1"   # Måndag kl 7
+  workflow_dispatch:
+
+jobs:
+  scrape-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run scraper
+        env:
+          EDISON_URL: ${{ secrets.EDISON_URL }}
+          BRICKS_URL: ${{ secrets.BRICKS_URL }}
+          LAZIZA_URL: ${{ secrets.LAZIZA_URL }}
+          SMAKAPAKINA_URL: ${{ secrets.SMAKAPAKINA_URL }}
+          INSPIRA_URL: ${{ secrets.INSPIRA_URL }}
+          TROPPO_URL: ${{ secrets.TROPPO_URL }}
+          BRYGGAN_URL: ${{ secrets.BRYGGAN_URL }}
+          SALADSANDSMOOTHIES_URL: ${{ secrets.SALADSANDSMOOTHIES_URL }}
+        run: |
+          python webscraping.py edison "$EDISON_URL"
+          python webscraping.py bricks "$BRICKS_URL"
+          python webscraping.py laziza "$LAZIZA_URL"
+          python webscraping.py smakapakina "$SMAKAPAKINA_URL"
+          python webscraping.py inspira "$INSPIRA_URL"
+          python webscraping.py troppo "$TROPPO_URL"
+          python webscraping.py bryggan "$BRYGGAN_URL"
+          python webscraping.py saladsandsmoothies "$SALADSANDSMOOTHIES_URL"
+
+      - name: Move JSON files to backend menus folder
+        run: |
+         # mv menu_*.json backend/menus/ # switch to the correct file to get the changes
+
+      - name: Commit and push updated menus
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@github.com"
+          git add backend/menus/*.json # and this
+          git diff --cached --quiet || git commit -m "chore: update menus $(date +'%Y-W%V')"
+          git push
