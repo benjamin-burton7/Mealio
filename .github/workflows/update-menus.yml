@@ -28,7 +28,6 @@ jobs:
           LAZIZA_URL: ${{ secrets.LAZIZA_URL }}
           SMAKAPAKINA_URL: ${{ secrets.SMAKAPAKINA_URL }}
           INSPIRA_URL: ${{ secrets.INSPIRA_URL }}
-          TROPPO_URL: ${{ secrets.TROPPO_URL }}
           BRYGGAN_URL: ${{ secrets.BRYGGAN_URL }}
           SALADSANDSMOOTHIES_URL: ${{ secrets.SALADSANDSMOOTHIES_URL }}
         run: |
@@ -37,7 +36,6 @@ jobs:
           python webscraping.py laziza "$LAZIZA_URL"
           python webscraping.py smakapakina "$SMAKAPAKINA_URL"
           python webscraping.py inspira "$INSPIRA_URL"
-          python webscraping.py troppo "$TROPPO_URL"
           python webscraping.py bryggan "$BRYGGAN_URL"
           python webscraping.py saladsandsmoothies "$SALADSANDSMOOTHIES_URL"
 
