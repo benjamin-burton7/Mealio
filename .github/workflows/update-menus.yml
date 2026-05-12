@@ -2,7 +2,7 @@ name: Update Restaurant Menus
 
 on:
   schedule:
-    - cron: "0 5 * * 1"   # Måndag kl 7
+#    - cron: "0 5 * * 1"   # Måndag kl 7
   workflow_dispatch:
 
 jobs:
