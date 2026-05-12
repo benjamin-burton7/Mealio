@@ -121,34 +121,6 @@ def scrape_laziza_menu(url: str) -> dict:
     return menu
 
 
-def scrape_troppo_menu(url: str) -> dict:
-    soup = _fetch(url)
-    text = soup.get_text(separator="\n")
-
-    week_m = re.search(r"Week\s+(\d+)", text, re.IGNORECASE)
-    week = f"V{week_m.group(1)}" if week_m else "?"
-
-    price_m = re.search(r"(\d{3})(?:-\d+)?\s*kr", text, re.IGNORECASE)
-    price = f"{price_m.group(1)}:-" if price_m else "149:-"
-
-    # Items are separated by standalone "or" lines
-    mf_m = re.search(r"Monday.Friday(.+?)(?:Find us|open Hours|$)", text, re.DOTALL | re.IGNORECASE)
-    items = []
-    if mf_m:
-        blocks = re.split(r"\n\s*or\s*\n", mf_m.group(1))
-        for block in blocks:
-            lines = [l.strip() for l in block.split("\n") if l.strip()]
-            if lines:
-                name = re.sub(r"[\u200d\u200b\u200c\ufeff]", "", lines[0]).strip()
-                if name and len(name) > 3:
-                    items.append({"category": "Lunch", "price": price, "dish": name})
-
-    menu = {"week": week, "days": {}}
-    for day in DAYS:
-        menu["days"][day] = items
-    return menu
-
-
 def scrape_matochmat_menu(url: str) -> dict:
     """Scraper for any single page restaurant"""
     soup = _fetch(url)
@@ -209,15 +181,12 @@ def scrape_saladsandsmoothies_menu(url: str) -> dict:
 
 def _detect_scraper(url: str):
     domain = urlparse(url).netloc.lower()
-    path = urlparse(url).path.lower()
     if "laziza.se" in domain:
         return scrape_laziza_menu
     if "smakapakina.se" in domain:
         return scrape_smakapakina_menu
     if "restauranginspira.se" in domain:
         return scrape_inspira_menu
-    if "troppo.se" in domain:
-        return scrape_troppo_menu
     if "saladsandsmoothies.se" in domain:
         return scrape_saladsandsmoothies_menu
     if "matochmat.se" in domain:
