@@ -13,16 +13,16 @@ export default function Home() {
 
         <div className="grid grid-cols-2 gap-5">
           <ActivityCard
-            title="Nordrest"
-            schedule="Mån–Fre: kl. 11.15 - 13.15"
-            image="/Nordrest.webp"
-          />
+          title="Nordrest" 
+          schedule="Mån–Fre: kl. 11.15 - 13.15" 
+          image="/Nordrest.webp" 
+          id="nordrest" />
 
-          <ActivityCard
-            title="Edison"
-            schedule="Mån–Fre: kl. 11.15 – 13.30"
-            image="/Edison.webp"
-          />
+         <ActivityCard
+         title="Edison"
+         schedule="Mån–Fre: kl. 11.15 – 13.30"
+         image="/Edison.webp"
+         id="edison" /> 
         </div>
       </main>
     </div>

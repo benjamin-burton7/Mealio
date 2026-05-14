@@ -1,0 +1,80 @@
+{
+  "week": "Vecka 20",
+  "days": {
+    "Måndag": [
+      {
+        "category": "Green",
+        "price": "115:-",
+        "dish": "Gnocchi med rostad paprika, bakad zucchini, ostsås & machésallad"
+      },
+      {
+        "category": "Local",
+        "price": "115:-",
+        "dish": "Biffgryta med syrlig morot, kokt potatis & dillsallad"
+      },
+      {
+        "category": "World Wide",
+        "price": "115:-",
+        "dish": "Långbakad karré med kryddsmör, bönsallad & parmesangratinerad potatis"
+      }
+    ],
+    "Tisdag": [
+      {
+        "category": "Green",
+        "price": "115:-",
+        "dish": "Misobakad spetskål med jordnötsdressing, koriander, stekt ägg & chilipicklad gurka"
+      },
+      {
+        "category": "Local",
+        "price": "115:-",
+        "dish": "Raggmunk med rökt fläskbog, lingon & persilja"
+      },
+      {
+        "category": "World Wide",
+        "price": "115:-",
+        "dish": "Krispig fishcake med glasnudlar, misovinaigrette & wookade grönsaker"
+      }
+    ],
+    "Onsdag": [
+      {
+        "category": "Green",
+        "price": "115:-",
+        "dish": "Veg taco på svarta bönor med tomatsalsa, gräddfil, selleri & nachos"
+      },
+      {
+        "category": "Local",
+        "price": "115:-",
+        "dish": "Pannbiff med bakad palsternacka, senapssky & libbsticka"
+      },
+      {
+        "category": "World Wide",
+        "price": "115:-",
+        "dish": "Panerad kyckling med reddragonsås, ris, salladslök & koriander"
+      }
+    ],
+    "Torsdag": [
+      {
+        "category": "Green",
+        "price": "115:-",
+        "dish": "KRISTI HIMMELSFÄRDSDAG!"
+      }
+    ],
+    "Fredag": [
+      {
+        "category": "Green",
+        "price": "115:-",
+        "dish": "IDAG HÅLLER VI STÄNGT!"
+      },
+      {
+        "category": "Local",
+        "price": "115:-",
+        "dish": "TREVLIG HELG!"
+      },
+      {
+        "category": "World Wide",
+        "price": "115:-",
+        "dish": "SE LUNCHMENYN"
+      }
+    ]
+  }
+}
