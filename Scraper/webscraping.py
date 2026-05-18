@@ -813,7 +813,6 @@ def _detect_scraper(url: str):
 
     return scrape_intendit_menu
 
-
 def _get_solution_root() -> Path:
     current_dir = Path(__file__).resolve().parent
 
@@ -821,7 +820,6 @@ def _get_solution_root() -> Path:
         return current_dir.parent
 
     return current_dir
-
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
