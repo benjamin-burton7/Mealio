@@ -4,4 +4,5 @@
     <Deploy />
   </Project>
   <Project Path="Mealio.Server/Mealio.Server.csproj" />
+  <Project Path="Mealio.Tests/Mealio.Tests.csproj" Id="84ceee06-0b3d-4aaa-9248-f4d849c21249" />
 </Solution>

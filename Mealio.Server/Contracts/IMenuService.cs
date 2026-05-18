@@ -1,4 +1,4 @@
-﻿using Mealio.Server.DTOs;
+﻿using Mealio.Server.Dtos;
 
 namespace Mealio.Server.Contracts;
 
