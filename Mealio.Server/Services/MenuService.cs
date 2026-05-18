@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Mealio.Server.Contracts;
-using Mealio.Server.DTOs;
+using Mealio.Server.Dtos;
 
 namespace Mealio.Server.Services;
 

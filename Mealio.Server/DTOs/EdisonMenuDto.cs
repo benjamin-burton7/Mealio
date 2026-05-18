@@ -1,4 +1,4 @@
-﻿namespace Mealio.Server.DTOs
+﻿namespace Mealio.Server.Dtos
 {
     // EdisonMenuDto.cs
     public class EdisonMenuDto
