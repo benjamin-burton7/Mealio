@@ -1,7 +1,11 @@
-import type { EdisonMenuDto } from "../types/menu"
+import type { MenuDto } from "../types/menu"
 
-export async function getEdisonMenu(): Promise<EdisonMenuDto> {
-  const res = await fetch("/api/menu/edison")
-  if (!res.ok) throw new Error("Failed to fetch Edison menu")
+export async function getMenuByRestaurant(id: string): Promise<MenuDto> {
+  const res = await fetch(`/api/menu/${id}`)
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${id} menu`)
+  }
+
   return res.json()
 }

@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom"
 
 type ActivityCardProps = {
+  id: string
   title: string
   schedule: string
   image: string
-  id: string
 }
 
 export default function ActivityCard({ title, schedule, image, id }: ActivityCardProps) {

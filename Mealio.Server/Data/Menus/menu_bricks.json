@@ -1,0 +1,16 @@
+{
+  "week": "Vecka test",
+  "days": {
+    "Måndag": [
+      {
+        "category": "Lunch",
+        "price": "115:-",
+        "dish": "Testmeny Bricks måndag"
+      }
+    ],
+    "Tisdag": [],
+    "Onsdag": [],
+    "Torsdag": [],
+    "Fredag": []
+  }
+}

@@ -29,7 +29,17 @@ if (!app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGet("/api/menu/bricks", async (IMenuService menuService) =>
+{
+    var menu = await menuService.GetBricksMenuAsync();
 
+    if (menu is null)
+    {
+        return Results.NotFound("Bricks menu was not found.");
+    }
+
+    return Results.Ok(menu);
+});
 app.MapFallbackToFile("/index.html");
 
 app.Run("http://0.0.0.0:5000");

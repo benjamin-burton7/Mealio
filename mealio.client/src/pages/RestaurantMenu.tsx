@@ -1,25 +1,56 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { getEdisonMenu } from "../services/menuService"
-import type { EdisonMenuDto } from "../types/menu"
+import { getMenuByRestaurant } from "../services/menuService"
+import type { MenuDto } from "../types/menu"
 import Header from "../components/Header"
 
 const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
 
+const restaurantInfo = {
+  edison: {
+    title: "Edison",
+    image: "/Edison.webp",
+    schedule: "Mån–Fre: kl. 11.15 – 13.30",
+  },
+  nordrest: {
+    title: "Nordrest",
+    image: "/Nordrest.webp",
+    schedule: "Mån–Fre",
+  },
+  bricks: {
+    title: "Bricks",
+    image: "/Bricks.webp",
+    schedule: "Mån–Fre: kl. 11.15 – 13.30",
+  },
+}
+
+type RestaurantId = keyof typeof restaurantInfo
+
 export default function RestaurantMenu() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const [menu, setMenu] = useState<EdisonMenuDto | null>(null)
+  const [menu, setMenu] = useState<MenuDto | null>(null)
   const [error, setError] = useState(false)
 
+  const currentRestaurant = id && id in restaurantInfo
+    ? restaurantInfo[id as RestaurantId]
+    : null
+
   useEffect(() => {
-    if (id !== "edison") return
-    getEdisonMenu()
+    if (!id || !(id in restaurantInfo)) {
+      setError(true)
+      return
+    }
+
+    setMenu(null)
+    setError(false)
+
+    getMenuByRestaurant(id)
       .then(setMenu)
       .catch(() => setError(true))
   }, [id])
 
-  if (error) return (
+  if (error || !currentRestaurant) return (
     <div className="min-h-screen bg-[#F1FFF5] flex flex-col items-center justify-center gap-4">
       <p className="text-[#0B5A4A] font-bold">Kunde inte ladda menyn.</p>
       <button onClick={() => navigate("/")} className="text-sm underline text-[#61B3AA]">Tillbaka</button>
@@ -41,11 +72,15 @@ export default function RestaurantMenu() {
         </button>
 
         <div className="relative h-44 w-full overflow-hidden rounded-2xl mb-2">
-          <img src="/Edison.webp" alt="Edison" className="h-full w-full object-cover" />
+          <img
+            src={currentRestaurant.image}
+            alt={currentRestaurant.title}
+            className="h-full w-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-4 left-4 text-white">
-            <h2 className="text-2xl font-extrabold italic">Edison</h2>
-            <p className="text-xs font-semibold opacity-80">Mån–Fre: kl. 11.15 – 13.30</p>
+            <h2 className="text-2xl font-extrabold italic">{currentRestaurant.title}</h2>
+            <p className="text-xs font-semibold opacity-80">{currentRestaurant.schedule}</p>
           </div>
         </div>
 
@@ -56,7 +91,9 @@ export default function RestaurantMenu() {
         <div className="flex flex-col gap-6">
           {DAYS.map((day) => {
             const dishes = menu.days[day]
+
             if (!dishes?.length) return null
+
             return (
               <div key={day}>
                 <h4 className="mb-2 text-sm font-extrabold uppercase tracking-wide text-[#61B3AA]">{day}</h4>

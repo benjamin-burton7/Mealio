@@ -22,7 +22,13 @@ export default function Home() {
          title="Edison"
          schedule="Mån–Fre: kl. 11.15 – 13.30"
          image="/Edison.webp"
-         id="edison" /> 
+         id="edison" />
+
+          <ActivityCard
+         title="Bricks"
+         schedule="Mån–Fre: kl. 11.15 – 13.30"
+         image="/Bricks.webp"
+         id="bricks" /> 
         </div>
       </main>
     </div>
