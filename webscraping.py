@@ -2,8 +2,13 @@ import requests
 import re
 import json
 import sys
+from datetime import date
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
+
+
+def _current_week() -> str:
+    return f"V{date.today().isocalendar()[1]}"
 
 DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
 
@@ -75,6 +80,7 @@ def _normalize_category(line: str) -> str:
     return line.title()
 
 
+
 def scrape_line_based_category_menu(url: str) -> dict:
     """
     Works for Edison-style pages:
@@ -117,8 +123,9 @@ def scrape_line_based_category_menu(url: str) -> dict:
             price = None
             dish = None
 
-            if i + 1 < len(lines) and re.fullmatch(r"\d+\s*:-", lines[i + 1]):
-                price = lines[i + 1].replace(" ", "")
+            price_m = re.match(r"(\d+\s*:-)", lines[i + 1]) if i + 1 < len(lines) else None
+            if price_m:
+                price = price_m.group(1).replace(" ", "")
                 if i + 2 < len(lines):
                     next_line = lines[i + 2]
 
@@ -356,44 +363,45 @@ def scrape_inspira_menu(url: str) -> dict:
     soup = _fetch(url)
     text = _visible_text(soup)
 
-    week_m = re.search(r"VECKA\s*\d+", text, re.IGNORECASE)
-    week = week_m.group(0).strip() if week_m else "?"
+    week_m = re.search(r"vecka\s*(\d+)", text, re.IGNORECASE)
+    week = f"vecka {week_m.group(1)}" if week_m else "?"
 
     menu = empty_menu(week)
 
-    for day in DAYS:
-        heading = soup.find(string=re.compile(rf"\b{day}\b", re.IGNORECASE))
+    day_re = re.compile(
+        r"^\s*(Måndag|Tisdag|Onsdag|Torsdag|Fredag)\s*$",
+        re.IGNORECASE | re.MULTILINE,
+    )
+    parts = day_re.split(text)
 
-        if not heading:
+    for i in range(1, len(parts) - 1, 2):
+        raw_day = parts[i].strip()
+        content = parts[i + 1]
+
+        day = next((d for d in DAYS if raw_day.lower() == d.lower()), None)
+        if not day:
             continue
 
-        block_text = ""
-        node = heading.parent
+        lines = [l.strip() for l in content.splitlines() if l.strip()]
 
-        while True:
-            node = node.find_next_sibling()
+        if not any(re.match(r"(Green|Local|Asia|World)\s*\|", l, re.IGNORECASE) for l in lines):
+            continue
 
-            if not node:
-                break
-
-            text = node.get_text(separator=" ", strip=True)
-
-            if any(
-                re.search(rf"\b{d}\b", text, re.IGNORECASE)
-                for d in DAYS
-                if d != day
-            ):
-                break
-
-            block_text += " " + text
-
-        items = [
-            {
-                "category": m.group(1).title(),
-                "dish": m.group(2).strip().rstrip("|").strip(),
-            }
-            for m in INSPIRA_PATTERN.finditer(block_text)
-        ]
+        items = []
+        j = 0
+        while j < len(lines):
+            m = re.match(r"(Green|Local|Asia|World)\s*\|\s*(.+)", lines[j], re.IGNORECASE)
+            if m:
+                category = m.group(1).title()
+                dish = m.group(2).strip()
+                if j + 1 < len(lines):
+                    next_line = lines[j + 1]
+                    if not re.match(r"(Green|Local|Asia|World)\s*\|", next_line, re.IGNORECASE) and \
+                       not _is_day(next_line):
+                        dish = f"{dish}, {next_line}"
+                        j += 1
+                items.append({"category": category, "dish": dish})
+            j += 1
 
         menu["days"][day] = items
 
@@ -404,8 +412,7 @@ def scrape_smakapakina_menu(url: str) -> dict:
     soup = _fetch(url)
     page_text = _visible_text(soup)
 
-    week_m = re.search(r"(V\s*\d+|VECKA\s*\d+)", page_text, re.IGNORECASE)
-    week = week_m.group(1).strip() if week_m else "?"
+    week = _current_week()
 
     menu = empty_menu(week)
 
@@ -425,17 +432,20 @@ def scrape_smakapakina_menu(url: str) -> dict:
         if not day:
             continue
 
-        price_m = re.search(r"(\d+)\s*kr", content)
+        price_m = re.search(r"(\d+)[\s\xa0]*kr", content)
         price = f"{price_m.group(1)}:-" if price_m else "110:-"
+
+        lunch_block = re.split(r"\d+[\s\xa0]*kr", content, maxsplit=1)[0]
 
         items = []
 
-        for m in re.finditer(r"\d+\.\s+(.+?)(?=\d+\.|$)", content, re.DOTALL):
+        for m in re.finditer(r"\d+\.+\s*(.+?)(?=\d+\.|$)", lunch_block, re.DOTALL):
             dish = re.sub(r"\s+", " ", m.group(1)).strip()
-            dish = re.sub(r"\s*\d+\s*kr\s*$", "", dish).strip()
-            dish = re.sub(r"\s*[\u4e00-\u9fff\uff08\uff09()]+\s*", " ", dish).strip()
+            dish = re.sub(r"\s*[\uff08(][^)\uff09]*[)\uff09]", "", dish).strip()
+            dish = re.sub(r"[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]+", "", dish).strip()
+            dish = re.sub(r"\s+", " ", dish).strip()
 
-            if dish:
+            if dish and len(dish) > 2:
                 items.append(
                     {
                         "category": "Lunch",
@@ -485,8 +495,8 @@ def scrape_matochmat_menu(url: str) -> dict:
     )
 
     item_re = re.compile(
-        r"([A-Za-zÀ-ÿÅÄÖåäö&'\- ]{4,80}?)(\d{2,3})\s*kr\s*(.+?)(?=[A-ZÅÄÖ][a-zåäö]|\Z)",
-        re.DOTALL,
+        r"([^\n]{4,80})\n(\d{2,3})\nkr\n([^\n]+)",
+        re.IGNORECASE,
     )
 
     parts = day_heading.split(text)
@@ -503,15 +513,17 @@ def scrape_matochmat_menu(url: str) -> dict:
         items = []
 
         for m in item_re.finditer(content):
-            dish = re.sub(r"\s+", " ", m.group(1)).strip()
+            name = re.sub(r"\s+", " ", m.group(1)).strip()
+            desc = re.sub(r"\s+", " ", m.group(3)).strip()
             price = f"{m.group(2)}:-"
+            full_dish = f"{name}, {desc}" if desc else name
 
-            if dish and len(dish) > 3:
+            if name and len(name) > 3:
                 items.append(
                     {
                         "category": "Lunch",
                         "price": price,
-                        "dish": dish,
+                        "dish": full_dish,
                     }
                 )
 
@@ -559,6 +571,9 @@ def _detect_scraper(url: str):
         return scrape_nordrest_menu
 
     if "restaurangedison.se" in domain:
+        return scrape_line_based_category_menu
+
+    if "brickseatery.se" in domain:
         return scrape_line_based_category_menu
 
     if "laziza.se" in domain:
