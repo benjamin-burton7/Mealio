@@ -1,79 +1,89 @@
 {
-  "week": "Vecka 20",
+  "week": "Vecka 22",
   "days": {
     "Måndag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Gnocchi med rostad paprika, bakad zucchini, ostsås & machésallad"
+        "dish": "Pasta med citronsås, chilirostad zucchini, lagrad ost & fröer"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Biffgryta med syrlig morot, kokt potatis & dillsallad"
+        "dish": "Bräserad fläskbog med persiljestomp, svampsås & syltade vinbär"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Långbakad karré med kryddsmör, bönsallad & parmesangratinerad potatis"
+        "dish": "Chicken Korma med basmatiris, mandel, rostad blomkål & koriander"
       }
     ],
     "Tisdag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Misobakad spetskål med jordnötsdressing, koriander, stekt ägg & chilipicklad gurka"
+        "dish": "Rödbetsbiff med getostcreme, honungsbakade betor & kokt potatis"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Raggmunk med rökt fläskbog, lingon & persilja"
+        "dish": "Grillad karré med bakade rotfrukter, spenat & pepparsky"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Krispig fishcake med glasnudlar, misovinaigrette & wookade grönsaker"
+        "dish": "Chiligryta på oxe med svarta bönor, picklad rödlök, ris & syrad grädde"
       }
     ],
     "Onsdag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Veg taco på svarta bönor med tomatsalsa, gräddfil, selleri & nachos"
+        "dish": "Gul Currygryta med kål & tofu serveras med ris & ananas"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Pannbiff med bakad palsternacka, senapssky & libbsticka"
+        "dish": "Biff Lindström med kryddsmör, rödvinssky & timjansrostad potatis"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Panerad kyckling med reddragonsås, ris, salladslök & koriander"
+        "dish": "Fishtaco med tortillabröd, mangochutney, chilimajo & potatisklyftor"
       }
     ],
     "Torsdag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "KRISTI HIMMELSFÄRDSDAG!"
+        "dish": "Krispig risottobiff med tryffelmajo, rostade rotfukter & spenat"
+      },
+      {
+        "category": "Local",
+        "price": "115:-",
+        "dish": "Grillad kyckling med sotad isberg, tomater, rostad potatis & ceasarcreme"
+      },
+      {
+        "category": "World Wide",
+        "price": "115:-",
+        "dish": "Hoisinglacerade revben med ris, ingefärsmajo & krispiga grönsaker"
       }
     ],
     "Fredag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "IDAG HÅLLER VI STÄNGT!"
+        "dish": "Ängamat med vårprimörer, örtscones & krassesallad"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "TREVLIG HELG!"
+        "dish": "Kålpudding med kokt potatis, lingon, gräddsås & persilja"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "SE LUNCHMENYN"
+        "dish": "Fiskgratäng med skaldjurssås, pommes duchesse & fänkålscrudité"
       }
     ]
   }

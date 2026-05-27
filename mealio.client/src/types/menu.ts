@@ -1,10 +1,10 @@
 export type DishDto = {
-  category: string
-  price: string
-  dish: string
-}
+  category: string;
+  price: string;
+  dish: string;
+};
 
-export type EdisonMenuDto = {
-  week: string
-  days: Record<string, DishDto[]>
-}
+export type MenuDto = {
+  week: string;
+  days: Record<string, DishDto[]>;
+};

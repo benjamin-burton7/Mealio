@@ -19,4 +19,17 @@ public class MenuController(IMenuService menuService) : ControllerBase
 
         return Ok(menu);
     }
+
+    [HttpGet("nordrest")]
+    public async Task<IActionResult> GetNordrestMenu()
+    {
+        var menu = await menuService.GetNordrestMenuAsync();
+
+        if (menu is null)
+        {
+            return NotFound("Nordrest menu was not found.");
+        }
+
+        return Ok(menu);
+    }
 }

@@ -5,33 +5,51 @@ using Mealio.Server.Dtos;
 
 namespace Mealio.Server.Services;
 
-public class MenuService(IConfiguration config, ILogger<MenuService> logger) : IMenuService
+public class MenuService(
+    IConfiguration config,
+    IWebHostEnvironment environment,
+    ILogger<MenuService> logger) : IMenuService
 {
-	private static readonly JsonSerializerOptions JsonOptions = new()
-	{
-		PropertyNameCaseInsensitive = true
-	};
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
 
-	private readonly string _menuPath = config["MenuSettings:EdisonMenuPath"]
-		?? "output/menu_edison.json";
+    private readonly string _edisonMenuPath = Path.Combine(
+        environment.ContentRootPath,
+        config["MenuSettings:EdisonMenuPath"] ?? "Data/Menus/menu_edison.json");
 
-	public async Task<EdisonMenuDto?> GetEdisonMenuAsync()
-	{
-		if (!File.Exists(_menuPath))
-		{
-			logger.LogWarning("Edison menu file not found at {Path}", _menuPath);
-			return null;
-		}
+    private readonly string _nordrestMenuPath = Path.Combine(
+        environment.ContentRootPath,
+        config["MenuSettings:NordrestMenuPath"] ?? "Data/Menus/menu_nordrest.json");
 
-		try
-		{
-			var json = await File.ReadAllTextAsync(_menuPath, Encoding.UTF8);
-			return JsonSerializer.Deserialize<EdisonMenuDto>(json, JsonOptions);
-		}
-		catch (Exception ex)
-		{
-			logger.LogError(ex, "Failed to deserialize Edison menu from {Path}", _menuPath);
-			return null;
-		}
-	}
+    public Task<MenuDto?> GetEdisonMenuAsync()
+    {
+        return GetMenuFromFileAsync(_edisonMenuPath, "Edison");
+    }
+
+    public Task<MenuDto?> GetNordrestMenuAsync()
+    {
+        return GetMenuFromFileAsync(_nordrestMenuPath, "Nordrest");
+    }
+
+    private async Task<MenuDto?> GetMenuFromFileAsync(string menuPath, string restaurantName)
+    {
+        if (!File.Exists(menuPath))
+        {
+            logger.LogWarning("{Restaurant} menu file not found at {Path}", restaurantName, menuPath);
+            return null;
+        }
+
+        try
+        {
+            var json = await File.ReadAllTextAsync(menuPath, Encoding.UTF8);
+            return JsonSerializer.Deserialize<MenuDto>(json, JsonOptions);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to deserialize {Restaurant} menu from {Path}", restaurantName, menuPath);
+            return null;
+        }
+    }
 }

@@ -3,12 +3,14 @@ import re
 import json
 import sys
 from datetime import date
+from pathlib import Path
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
 
 def _current_week() -> str:
     return f"V{date.today().isocalendar()[1]}"
+
 
 DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
 
@@ -78,7 +80,6 @@ def _normalize_category(line: str) -> str:
         return "World Wide"
 
     return line.title()
-
 
 
 def scrape_line_based_category_menu(url: str) -> dict:
@@ -159,18 +160,31 @@ def scrape_nordrest_menu(url: str) -> dict:
     soup = _fetch(url)
     text = _visible_text(soup)
 
-    week_m = re.search(r"Lunch\s+v\.?\s*(\d+)", text, re.IGNORECASE)
-    week = f"v. {week_m.group(1)}" if week_m else "?"
+    week_m = re.search(r"Lunch\s+(?:v\.?|w\.?)\s*(\d+)", text, re.IGNORECASE)
+    week = f"V{week_m.group(1)}" if week_m else _current_week()
 
     menu = empty_menu(week)
 
-    today_price_m = re.search(r"Todays lunch:\s*(\d+)\s*SEK", text, re.IGNORECASE)
+    today_price_m = re.search(r"Todays lunch\s*:?\s*(\d+)\s*SEK", text, re.IGNORECASE)
     default_price = f"{today_price_m.group(1)}:-" if today_price_m else "105:-"
 
-    weekly_price_m = re.search(r"Weekly dish:\s*(\d+)\s*SEK", text, re.IGNORECASE)
+    weekly_price_m = re.search(r"Weekly dish\s*:?\s*(\d+)\s*SEK", text, re.IGNORECASE)
     weekly_price = f"{weekly_price_m.group(1)}:-" if weekly_price_m else "125:-"
 
     lines = [line.strip() for line in text.splitlines() if line.strip()]
+
+    day_aliases = {
+        "Monday": "Måndag",
+        "Tuesday": "Tisdag",
+        "Wednesday": "Onsdag",
+        "Thursday": "Torsdag",
+        "Friday": "Fredag",
+        "Måndag": "Måndag",
+        "Tisdag": "Tisdag",
+        "Onsdag": "Onsdag",
+        "Torsdag": "Torsdag",
+        "Fredag": "Fredag",
+    }
 
     allergen_words = {
         "Gluten",
@@ -189,43 +203,43 @@ def scrape_nordrest_menu(url: str) -> dict:
         "Shellfish",
         "Peanuts",
         "Almonds",
+        "Molluscs",
     }
 
     skip_patterns = [
         r"^Menu$",
+        r"^PRICES?$",
         r"^PRISER$",
-        r"^Lunch\s+v\.?\s*\d+",
-        r"Weekly dish:",
-        r"Todays lunch:",
+        r"^Lunch\s+(?:v\.?|w\.?)\s*\d+",
+        r"Weekly dish\s*:",
+        r"Todays lunch\s*:",
         r"Saladsbuffé",
         r"bread and water",
         r"Enjoy a daily",
-        r"^Contact$",
-        r"^Opening hours$",
-        r"^Find us$",
-        r"^About us$",
-        r"^Lunch$",
+        r"^Dishes of the week$",
+        r"^Dish of the week$",
+        r"^Veckans rätter$",
+        r"^Veckans rätt$",
+        r"^Welcome\.?$",
     ]
 
     stop_patterns = [
+        r"^Klimato$",
+        r"^Take away$",
+        r"^Conference$",
+        r"^Opening hours",
         r"^Contact$",
-        r"^Opening hours$",
-        r"^Find us$",
-        r"^About us$",
         r"^Book",
         r"^Subscribe",
     ]
 
-    current_day = None
-    current_title = None
-    current_description_parts = []
+    def normalize_nordrest_day(line: str) -> str | None:
+        cleaned = line.strip()
+        cleaned = re.sub(r"\s+(Today|Idag)$", "", cleaned, flags=re.IGNORECASE).strip()
 
-    def is_day_line(line: str) -> str | None:
-        cleaned = line.replace(" Today", "").strip()
-
-        for english_day in ENGLISH_TO_SWEDISH_DAYS:
-            if cleaned.lower() == english_day.lower():
-                return english_day
+        for source_day, swedish_day in day_aliases.items():
+            if cleaned.lower() == source_day.lower():
+                return swedish_day
 
         return None
 
@@ -243,6 +257,13 @@ def scrape_nordrest_menu(url: str) -> dict:
     def should_stop(line: str) -> bool:
         return any(re.search(pattern, line, re.IGNORECASE) for pattern in stop_patterns)
 
+    def looks_like_climate_label(line: str) -> bool:
+        return bool(re.fullmatch(r"[A-E]\s*\d+[,.]\d+", line.strip(), re.IGNORECASE))
+
+    current_day = None
+    current_title = None
+    current_description_parts = []
+
     def save_current_item():
         nonlocal current_title, current_description_parts
 
@@ -251,17 +272,16 @@ def scrape_nordrest_menu(url: str) -> dict:
             current_description_parts = []
             return
 
-        swedish_day = ENGLISH_TO_SWEDISH_DAYS[current_day]
         description = " ".join(current_description_parts).strip()
-
         dish = current_title.strip()
+
         if description:
             dish = f"{dish} - {description}"
 
         lower_dish = dish.lower()
         price = weekly_price if "burger" in lower_dish or "salmon" in lower_dish else default_price
 
-        menu["days"][swedish_day].append(
+        menu["days"][current_day].append(
             {
                 "category": "Lunch",
                 "price": price,
@@ -276,13 +296,13 @@ def scrape_nordrest_menu(url: str) -> dict:
         start_index = next(
             i
             for i, line in enumerate(lines)
-            if re.search(r"Lunch\s+v\.?\s*\d+", line, re.IGNORECASE)
+            if re.search(r"Lunch\s+(?:v\.?|w\.?)\s*\d+", line, re.IGNORECASE)
         )
     except StopIteration:
         start_index = 0
 
     for line in lines[start_index:]:
-        day = is_day_line(line)
+        day = normalize_nordrest_day(line)
 
         if day:
             save_current_item()
@@ -297,6 +317,9 @@ def scrape_nordrest_menu(url: str) -> dict:
             break
 
         if should_skip_line(line):
+            continue
+
+        if looks_like_climate_label(line):
             continue
 
         if is_allergen_line(line):
@@ -382,9 +405,9 @@ def scrape_inspira_menu(url: str) -> dict:
         if not day:
             continue
 
-        lines = [l.strip() for l in content.splitlines() if l.strip()]
+        lines = [line.strip() for line in content.splitlines() if line.strip()]
 
-        if not any(re.match(r"(Green|Local|Asia|World)\s*\|", l, re.IGNORECASE) for l in lines):
+        if not any(re.match(r"(Green|Local|Asia|World)\s*\|", line, re.IGNORECASE) for line in lines):
             continue
 
         items = []
@@ -394,13 +417,23 @@ def scrape_inspira_menu(url: str) -> dict:
             if m:
                 category = m.group(1).title()
                 dish = m.group(2).strip()
+
                 if j + 1 < len(lines):
                     next_line = lines[j + 1]
-                    if not re.match(r"(Green|Local|Asia|World)\s*\|", next_line, re.IGNORECASE) and \
-                       not _is_day(next_line):
+                    if (
+                        not re.match(r"(Green|Local|Asia|World)\s*\|", next_line, re.IGNORECASE)
+                        and not _is_day(next_line)
+                    ):
                         dish = f"{dish}, {next_line}"
                         j += 1
-                items.append({"category": category, "dish": dish})
+
+                items.append(
+                    {
+                        "category": category,
+                        "dish": dish,
+                    }
+                )
+
             j += 1
 
         menu["days"][day] = items
@@ -611,7 +644,11 @@ if __name__ == "__main__":
         print(f"Error scraping menu: {e}")
         sys.exit(1)
 
-    out = f"menu_{name}.json"
+    solution_root = Path(__file__).resolve().parent
+    output_dir = solution_root / "Mealio.Server" / "Data" / "Menus"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    out = output_dir / f"menu_{name}.json"
 
     with open(out, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
