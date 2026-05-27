@@ -517,8 +517,13 @@ def scrape_matochmat_menu(url: str) -> dict:
     soup = _fetch(url)
     text = _visible_text(soup)
 
-    week_m = re.search(r"VECKA\s*(\d+)", text, re.IGNORECASE)
-    week = f"V{week_m.group(1)}" if week_m else "?"
+    active_week_m = re.search(r"LUNCH\s+VECKA\s*(\d+)", text, re.IGNORECASE)
+
+    if active_week_m:
+        week = f"V{active_week_m.group(1)}"
+    else:
+        week_matches = re.findall(r"VECKA\s*(\d+)", text, re.IGNORECASE)
+        week = f"V{week_matches[0]}" if week_matches else _current_week()
 
     menu = empty_menu(week)
 

@@ -23,6 +23,10 @@ public class MenuService(
         environment.ContentRootPath,
         config["MenuSettings:NordrestMenuPath"] ?? "Data/Menus/menu_nordrest.json");
 
+    private readonly string _brygganMenuPath = Path.Combine(
+        environment.ContentRootPath,
+        config["MenuSettings:BrygganMenuPath"] ?? "Data/Menus/menu_bryggan.json");
+
     public Task<MenuDto?> GetEdisonMenuAsync()
     {
         return GetMenuFromFileAsync(_edisonMenuPath, "Edison");
@@ -31,6 +35,11 @@ public class MenuService(
     public Task<MenuDto?> GetNordrestMenuAsync()
     {
         return GetMenuFromFileAsync(_nordrestMenuPath, "Nordrest");
+    }
+
+    public Task<MenuDto?> GetBrygganMenuAsync()
+    {
+        return GetMenuFromFileAsync(_brygganMenuPath, "Bryggan");
     }
 
     private async Task<MenuDto?> GetMenuFromFileAsync(string menuPath, string restaurantName)

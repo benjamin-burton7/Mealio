@@ -32,4 +32,17 @@ public class MenuController(IMenuService menuService) : ControllerBase
 
         return Ok(menu);
     }
+
+    [HttpGet("bryggan")]
+    public async Task<IActionResult> GetBrygganMenu()
+    {
+        var menu = await menuService.GetBrygganMenuAsync();
+
+        if (menu is null)
+        {
+            return NotFound("Bryggan menu was not found.");
+        }
+
+        return Ok(menu);
+    }
 }

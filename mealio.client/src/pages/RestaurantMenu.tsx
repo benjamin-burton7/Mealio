@@ -23,6 +23,11 @@ const RESTAURANTS: Record<
     image: "/Nordrest.webp",
     schedule: "Mån–Fre: kl. 11.15 – 13.15",
   },
+  bryggan: {
+    name: "Bryggan Kök & Cafe",
+    image: "/Bryggan.jpg",
+    schedule: "Mån–Fre: kl. 11.30 – 13.30",
+  },
 };
 
 export default function RestaurantMenu() {

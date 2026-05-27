@@ -1,5 +1,5 @@
-import Header from "../components/Header"
-import ActivityCard from "../components/ActivityCard"
+import Header from "../components/Header";
+import ActivityCard from "../components/ActivityCard";
 
 export default function Home() {
   return (
@@ -13,18 +13,27 @@ export default function Home() {
 
         <div className="grid grid-cols-2 gap-5">
           <ActivityCard
-          title="Nordrest" 
-          schedule="Mån–Fre: kl. 11.15 - 13.15" 
-          image="/Nordrest.webp" 
-          id="nordrest" />
+            title="Nordrest"
+            schedule="Mån–Fre: kl. 11.15 – 13.15"
+            image="/Nordrest.webp"
+            id="nordrest"
+          />
 
-         <ActivityCard
-         title="Edison"
-         schedule="Mån–Fre: kl. 11.15 – 13.30"
-         image="/Edison.webp"
-         id="edison" /> 
+          <ActivityCard
+            title="Edison"
+            schedule="Mån–Fre: kl. 11.15 – 13.30"
+            image="/Edison.webp"
+            id="edison"
+          />
+
+          <ActivityCard
+            title="Bryggan"
+            schedule="Mån–Fre: kl. 11.30 – 13.30"
+            image="/Bryggan.jpg"
+            id="bryggan"
+          />
         </div>
       </main>
     </div>
-  )
+  );
 }
