@@ -1,0 +1,101 @@
+{
+    "week": "static",
+    "isStatic": true,
+    "items": [
+        {
+            "category": "Sallad",
+            "price": "85/105:-",
+            "dish": "Herbal Hummus - Säsongens salladsblad, matvete, edamamebönor, svarvade rödbetor, picklad rödkål, örthummus, gurka, fetaost, oliver, rostade pumpafrön. Dressing: Granatäpple"
+        },
+        {
+            "category": "Sallad varm",
+            "price": "115:-",
+            "dish": "Sweet Potato Falafel - Säsongens salladsblad, quinoamix, säsongens kål, picklad morot, blomkål, svarvade rödbetor, äpple, sötpotatisfalafel, örthummus, rostade pumpafrön. Dressing: Granatäpple"
+        },
+        {
+            "category": "Sallad varm",
+            "price": "115:-",
+            "dish": "Veggie Beetroot - Säsongens salladsblad, svart ris, säsongens kål, picklad morot, blomkål, rödbets- och quinoabiff, färsk koriander, rostade cashewnötter. Dressing: Shichimi"
+        },
+        {
+            "category": "Sallad",
+            "price": "85/105:-",
+            "dish": "Green Garden - Säsongens salladsblad, svart ris, säsongens kål, babyspenat, örthummus, äpple, picklad rödlök, edamamebönor, avokado, saltrostad mandel, rostade pumpafrön. Dressing: Mango/chili"
+        },
+        {
+            "category": "Sallad",
+            "price": "105/125:-",
+            "dish": "Shrimpchi - Säsongens salladsblad, svart ris, hemgjord kimchi, blomkål, picklad morot, edamamebönor, handskalade räkor, koriander, rostade cashewnötter. Dressing: Shichimi"
+        },
+        {
+            "category": "Sallad",
+            "price": "105/125:-",
+            "dish": "Japanese Shrimp - Säsongens salladsblad, glasnudlar, edamamebönor, gurka, ingefärsbroccoli, picklad rödkål, handskalade räkor, blomkål, koriander, rostade cashewnötter. Dressing: Miso-soja"
+        },
+        {
+            "category": "Sallad",
+            "price": "105/125:-",
+            "dish": "Smokey Salmon - Säsongens salladsblad, quinoamix, citronklyfta, säsongens kål, blomkål, picklad rödlök, rädisa, äpple, vedugnsrökt lax, saltrostad mandel. Dressing: Pepparrot"
+        },
+        {
+            "category": "Sallad",
+            "price": "105/125:-",
+            "dish": "Shrimp Avocado - Säsongens salladsblad, svart ris, citronklyfta, gurka, ägghalva, picklad rödlök, handskalade räkor, avokado, glutenfria krutonger. Dressing: Dill & citron"
+        },
+        {
+            "category": "Sallad",
+            "price": "100/120:-",
+            "dish": "Chicken Caesar - Säsongens salladsblad, matvete, babyspenat, kycklingfilé, bacon, grana padano, picklad rödlök, glutenfria krutonger. Dressing: Caesar"
+        },
+        {
+            "category": "Sallad",
+            "price": "100/120:-",
+            "dish": "Chicken Chevre - Säsongens salladsblad, quinoamix, svarvade rödbetor, kycklingfilé, getost, äpple, rädisa, valnötter. Dressing: Rosmarin & honung"
+        },
+        {
+            "category": "Sallad",
+            "price": "100/120:-",
+            "dish": "Mango Avocado - Säsongens salladsblad, svart ris, babyspenat, kycklingfilé, mango, picklad rödkål, avokado, rostade pumpafrön, sesamfrömix. Dressing: Mango/chili"
+        },
+        {
+            "category": "Poké bowl",
+            "price": "135:-",
+            "dish": "Poké Tuna - Säsongens salladsblad, svart ris, edamamebönor, blomkål, picklad rödlök, ingefärsbroccoli, mango, marinerad tonfisk, koriander, rostade pumpafrön. Dressing: Shichimi"
+        },
+        {
+            "category": "Poké bowl",
+            "price": "135:-",
+            "dish": "Umami Ginger Tuna - Svart ris, babyspenat, avokado, gurka, picklad rödkål, hemgjord kimchi, syltad ingefära, blomkål, marinerad tonfisk, kikärtor, sesamfrömix. Dressing: Shichimi"
+        },
+        {
+            "category": "Poké bowl",
+            "price": "135:-",
+            "dish": "Hightide Tuna - Säsongens salladsblad, glasnudlar, edamamebönor, gurka, ingefärsbroccoli, inlagd ingefära, picklad rödkål, marinerad tonfisk, sesamfrömix. Dressing: Miso-soja"
+        },
+        {
+            "category": "Wrap",
+            "price": "95:-",
+            "dish": "Veggie Beetroot - Tortillabröd, säsongens salladsblad, säsongens kål, picklad morot, blomkål, rödbets- och quinoabiff, färsk koriander, rostade cashewnötter. Dressing: Shichimi"
+        },
+        {
+            "category": "Wrap",
+            "price": "95:-",
+            "dish": "Shrimp Avocado - Tortillabröd, säsongens salladsblad, gurka, ägghalva, picklad rödlök, handskalade räkor, avokado, glutenfria krutonger. Dressing: Dill & citron"
+        },
+        {
+            "category": "Wrap",
+            "price": "95:-",
+            "dish": "Smokey Salmon - Tortillabröd, säsongens salladsblad, säsongens kål, blomkål, picklad rödlök, rädisa, vedugnsrökt lax, äpple, saltrostad mandel. Dressing: Pepparrot"
+        },
+        {
+            "category": "Wrap varm",
+            "price": "95:-",
+            "dish": "Chicken Caesar - Tortillabröd, säsongens salladsblad, babyspenat, kycklingfilé, bacon, grana padano, picklad rödlök. Dressing: Caesar"
+        },
+        {
+            "category": "Wrap varm",
+            "price": "95:-",
+            "dish": "Sweet Potato Falafel - Tortillabröd, örthummus, säsongens salladsblad, säsongens kål, picklad morot, blomkål, svarvade rödbetor, äpple, sötpotatisfalafel, rostade pumpafrön. Dressing: Granatäpple"
+        }
+    ]
+}

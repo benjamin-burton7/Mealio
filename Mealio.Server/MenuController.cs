@@ -7,40 +7,14 @@ namespace Mealio.Server;
 [Route("api/[controller]")]
 public class MenuController(IMenuService menuService) : ControllerBase
 {
-    [HttpGet("edison")]
-    public async Task<IActionResult> GetEdisonMenu()
+    [HttpGet("{restaurantId}")]
+    public async Task<IActionResult> GetMenu(string restaurantId)
     {
-        var menu = await menuService.GetEdisonMenuAsync();
+        var menu = await menuService.GetMenuAsync(restaurantId);
 
         if (menu is null)
         {
-            return NotFound("Edison menu was not found.");
-        }
-
-        return Ok(menu);
-    }
-
-    [HttpGet("nordrest")]
-    public async Task<IActionResult> GetNordrestMenu()
-    {
-        var menu = await menuService.GetNordrestMenuAsync();
-
-        if (menu is null)
-        {
-            return NotFound("Nordrest menu was not found.");
-        }
-
-        return Ok(menu);
-    }
-
-    [HttpGet("bryggan")]
-    public async Task<IActionResult> GetBrygganMenu()
-    {
-        var menu = await menuService.GetBrygganMenuAsync();
-
-        if (menu is null)
-        {
-            return NotFound("Bryggan menu was not found.");
+            return NotFound($"Menu for '{restaurantId}' was not found.");
         }
 
         return Ok(menu);

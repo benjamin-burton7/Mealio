@@ -15,38 +15,31 @@ public class MenuService(
         PropertyNameCaseInsensitive = true
     };
 
-    private readonly string _edisonMenuPath = Path.Combine(
-        environment.ContentRootPath,
-        config["MenuSettings:EdisonMenuPath"] ?? "Data/Menus/menu_edison.json");
-
-    private readonly string _nordrestMenuPath = Path.Combine(
-        environment.ContentRootPath,
-        config["MenuSettings:NordrestMenuPath"] ?? "Data/Menus/menu_nordrest.json");
-
-    private readonly string _brygganMenuPath = Path.Combine(
-        environment.ContentRootPath,
-        config["MenuSettings:BrygganMenuPath"] ?? "Data/Menus/menu_bryggan.json");
-
-    public Task<MenuDto?> GetEdisonMenuAsync()
+    private readonly Dictionary<string, string> _menuPaths = new(StringComparer.OrdinalIgnoreCase)
     {
-        return GetMenuFromFileAsync(_edisonMenuPath, "Edison");
-    }
-
-    public Task<MenuDto?> GetNordrestMenuAsync()
+        ["edison"] = config["MenuSettings:EdisonMenuPath"] ?? "Data/Menus/menu_edison.json",
+        ["nordrest"] = config["MenuSettings:NordrestMenuPath"] ?? "Data/Menus/menu_nordrest.json",
+        ["bryggan"] = config["MenuSettings:BrygganMenuPath"] ?? "Data/Menus/menu_bryggan.json",
+        ["laziza"] = config["MenuSettings:LazizaMenuPath"] ?? "Data/Menus/menu_laziza.json",
+        ["smaka-pa-kina"] = config["MenuSettings:SmakaPaKinaMenuPath"] ?? "Data/Menus/menu_smaka_pa_kina.json",
+        ["inspira"] = config["MenuSettings:InspiraMenuPath"] ?? "Data/Menus/menu_inspira.json",
+        ["salads-and-smoothies"] = config["MenuSettings:SaladsAndSmoothiesMenuPath"] ?? "Data/Menus/menu_salads_and_smoothies.json",
+        ["bricks-eatery"] = config["MenuSettings:BricksEateryMenuPath"] ?? "Data/Menus/menu_bricks_eatery.json",
+    };
+        
+    public async Task<MenuDto?> GetMenuAsync(string restaurantId)
     {
-        return GetMenuFromFileAsync(_nordrestMenuPath, "Nordrest");
-    }
+        if (!_menuPaths.TryGetValue(restaurantId, out var relativePath))
+        {
+            logger.LogWarning("Unknown restaurant id: {RestaurantId}", restaurantId);
+            return null;
+        }
 
-    public Task<MenuDto?> GetBrygganMenuAsync()
-    {
-        return GetMenuFromFileAsync(_brygganMenuPath, "Bryggan");
-    }
+        var menuPath = Path.Combine(environment.ContentRootPath, relativePath);
 
-    private async Task<MenuDto?> GetMenuFromFileAsync(string menuPath, string restaurantName)
-    {
         if (!File.Exists(menuPath))
         {
-            logger.LogWarning("{Restaurant} menu file not found at {Path}", restaurantName, menuPath);
+            logger.LogWarning("Menu file for {RestaurantId} was not found at {Path}", restaurantId, menuPath);
             return null;
         }
 
@@ -57,7 +50,7 @@ public class MenuService(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to deserialize {Restaurant} menu from {Path}", restaurantName, menuPath);
+            logger.LogError(ex, "Failed to deserialize menu for {RestaurantId} from {Path}", restaurantId, menuPath);
             return null;
         }
     }
