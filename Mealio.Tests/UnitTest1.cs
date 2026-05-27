@@ -56,7 +56,7 @@ public class MenuServiceTests
 
         try
         {
-            EdisonMenuDto? result = await service.GetEdisonMenuAsync();
+            MenuDto? result = await service.GetEdisonMenuAsync();
 
             Assert.NotNull(result);
         }

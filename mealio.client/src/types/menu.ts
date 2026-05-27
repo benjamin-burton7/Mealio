@@ -4,7 +4,7 @@ export type DishDto = {
   dish: string
 }
 
-export type EdisonMenuDto = {
+export type MenuDto = {
   week: string
   days: Record<string, DishDto[]>
 }

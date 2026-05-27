@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { getEdisonMenu } from "../services/menuService"
-import type { EdisonMenuDto } from "../types/menu"
+import { getEdisonMenu, getBricksMenu} from "../services/menuService"
+import type { MenuDto } from "../types/menu"
 import Header from "../components/Header"
 
 const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
@@ -9,14 +9,26 @@ const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
 export default function RestaurantMenu() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const [menu, setMenu] = useState<EdisonMenuDto | null>(null)
+  const [menu, setMenu] = useState<MenuDto | null>(null)
   const [error, setError] = useState(false)
 
-  useEffect(() => {
-    if (id !== "edison") return
-    getEdisonMenu()
-      .then(setMenu)
-      .catch(() => setError(true))
+    useEffect(() => {
+    setMenu(null)
+    setError(false)
+
+    if (id === "edison") {
+      getEdisonMenu()
+        .then(setMenu)
+        .catch(() => setError(true))
+    } 
+    else if (id === "bricks") {
+      getBricksMenu()
+        .then(setMenu)
+        .catch(() => setError(true))
+    } 
+    else {
+      setError(true)
+    }
   }, [id])
 
   if (error) return (

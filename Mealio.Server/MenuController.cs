@@ -19,4 +19,18 @@ public class MenuController(IMenuService menuService) : ControllerBase
 
         return Ok(menu);
     }
+
+    [HttpGet("bricks")]
+    public async Task<IActionResult> GetBricksMenu()
+    {
+
+        var menu = await menuService.GetBricksMenuAsync();
+
+        if (menu is null)
+        {
+            return NotFound("Bricks menu was not found.");
+        }
+
+        return Ok(menu);
+    }
 }

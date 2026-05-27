@@ -32,7 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Menus\" />
-  </ItemGroup>
+  <Content Update="Data\Menus\*.json">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
 
 </Project>
