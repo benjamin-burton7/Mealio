@@ -1,9 +1,6 @@
 name: Update Restaurant Menus
 
-on:
-#  push:
-#    branches:
-#      - workflow-update    
+on:  
 #  schedule:
 #    - cron: "0 5 * * 1"   # Måndag kl 7
   workflow_dispatch:
@@ -33,6 +30,7 @@ jobs:
           INSPIRA_URL: ${{ secrets.INSPIRA_URL }}
           BRYGGAN_URL: ${{ secrets.BRYGGAN_URL }}
           SALADSANDSMOOTHIES_URL: ${{ secrets.SALADSANDSMOOTHIES_URL }}
+          EATERY_URL: ${{ secrets.EATERY_URL }}
         run: |
           python webscraping.py edison "$EDISON_URL"
           python webscraping.py bricks "$BRICKS_URL"
@@ -41,10 +39,11 @@ jobs:
           python webscraping.py inspira "$INSPIRA_URL"
           python webscraping.py bryggan "$BRYGGAN_URL"
           python webscraping.py saladsandsmoothies "$SALADSANDSMOOTHIES_URL"
+          python webscraping.py eatery "$EATERY_URL"
 
       - name: Move JSON files to backend menus folder
         run: |
-         # mv menu_*.json backend/menus/ # switch to the correct file to get the changes
+         # mv menu_*.json Mealio.Server/Data/Menus
 
       - name: Commit and push updated menus
         run: |
