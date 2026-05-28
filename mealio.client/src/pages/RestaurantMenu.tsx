@@ -15,17 +15,17 @@ const RESTAURANTS: Record<
 > = {
   edison: {
     name: "Edison",
-    image: "/edison.webp",
+    image: "/Edison.webp",
     schedule: "Mån–Fre: kl. 11.15 – 13.30",
   },
   nordrest: {
     name: "Nordrest",
-    image: "/nordrest.webp",
+    image: "/Nordrest.webp",
     schedule: "Mån–Fre: kl. 11.15 – 13.15",
   },
   bryggan: {
     name: "Bryggan Kök & Cafe",
-    image: "/bryggan.jpg",
+    image: "/Bryggan.jpg",
     schedule: "Mån–Fre: kl. 11.30 – 13.30",
   },
   laziza: {
@@ -57,15 +57,15 @@ const RESTAURANTS: Record<
 
 function MenuItemCard({ item }: { item: DishDto }) {
   return (
-    <div className="flex items-start justify-between rounded-xl bg-white px-4 py-3 shadow-sm">
-      <div>
+    <div className="flex w-full items-start justify-between gap-3 rounded-xl bg-white px-4 py-3 shadow-sm">
+      <div className="min-w-0">
         <p className="text-xs font-bold text-[#61B3AA]">{item.category}</p>
 
         <p className="mt-0.5 text-sm font-bold text-[#0B5A4A]">{item.dish}</p>
       </div>
 
       {item.price && (
-        <p className="ml-4 shrink-0 text-sm font-extrabold text-[#0B5A4A]">
+        <p className="shrink-0 text-sm font-extrabold text-[#0B5A4A]">
           {item.price}
         </p>
       )}
@@ -156,7 +156,7 @@ export default function RestaurantMenu() {
     <div className="min-h-screen bg-[#F1FFF5]">
       <Header />
 
-      <main className="px-5 pt-6 pb-10">
+      <main className="w-full px-4 pt-6 pb-8">
         <button
           onClick={() => navigate(-1)}
           className="mb-5 flex items-center gap-1 text-sm font-semibold text-[#0B5A4A]"
@@ -164,7 +164,7 @@ export default function RestaurantMenu() {
           ← Tillbaka
         </button>
 
-        <div className="relative h-44 w-full overflow-hidden rounded-2xl mb-2">
+        <div className="relative h-44 w-full overflow-hidden rounded-2xl mb-3">
           <img
             src={restaurant.image}
             alt={restaurant.name}
