@@ -1,0 +1,75 @@
+{
+  "week": "V22",
+  "days": {
+    "Måndag": [
+      {
+        "category": "Lunch",
+        "dish": "Sesam, ingefära och chilistekt färs med söt sojasås, lime & gochujangmajo, rotfruktsris, picklad lök, groddar & jordnötter"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Bakad sej med söt soja, sesam & lime, glasnudelsallad med mango, koriander, chili & tomat, rostad kokos & lök"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Somrig kikärtssallad med majsfritters, rostad paprika, fetaost, mynta & pitabröd"
+      }
+    ],
+    "Tisdag": [
+      {
+        "category": "Lunch",
+        "dish": "Vitello tonnato på fläskkotlett med potatissallad, citron & chili, friterad lök"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Bakad kungsfisk med skaldjurssås, potatismos, betor med ramslök & citron, krispig jordärtskocka"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Sparrisrisotto med sockerärter, tomat, ruccola & lagrad ost"
+      }
+    ],
+    "Onsdag": [
+      {
+        "category": "Lunch",
+        "dish": "Revben galcerade med asiatisk BBQ sås, rostad majssalsa, klyftpotatis, krämig kålsallad med sesam, ingefära & chili"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Panerad kummelfilé, rostad blomkål, tartarsås & kokt potatis"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Pinsa med getost, ruccola, rostade valnötter, creme fraiche med honung & citron"
+      }
+    ],
+    "Torsdag": [
+      {
+        "category": "Lunch",
+        "dish": "Citron och rosmarinbakad kycklingfilé med krämig parmesan risoni, gremolata, tomat & olivkräm"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Dill & fänkålsbakad sej, hollandaise med gräslök, kokt potatis, sallad på fänkål, senap & gröna bönor"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Vegobollar i kryddig tomatsås, saffransris, zucchini, spenat & chili"
+      }
+    ],
+    "Fredag": [
+      {
+        "category": "Lunch",
+        "dish": "Pankopanerad fläsksida med pumpapuré, äpplesalsa, rostad morot med farin & fänkål, rostad klyftpotatis, senapskräm"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Gratinerad kummel med fänkål, rädisa, tomat & dill, citronsås, potatismos med rostad vitlök"
+      },
+      {
+        "category": "Lunch",
+        "dish": "Linguine, pesto, krispig tofu & bakad tomat, fänkålssallad"
+      }
+    ]
+  }
+}

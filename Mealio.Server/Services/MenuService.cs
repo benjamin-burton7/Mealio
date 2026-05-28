@@ -25,6 +25,7 @@ public class MenuService(
         ["inspira"] = config["MenuSettings:InspiraMenuPath"] ?? "Data/Menus/menu_inspira.json",
         ["salads-and-smoothies"] = config["MenuSettings:SaladsAndSmoothiesMenuPath"] ?? "Data/Menus/menu_salads_and_smoothies.json",
         ["bricks-eatery"] = config["MenuSettings:BricksEateryMenuPath"] ?? "Data/Menus/menu_bricks_eatery.json",
+        ["sony-eatery"] = config["MenuSettings:SonyEateryMenuPath"] ?? "Data/Menus/menu_sony_eatery.json",
     };
         
     public async Task<MenuDto?> GetMenuAsync(string restaurantId)
