@@ -30,7 +30,7 @@ const RESTAURANTS: Record<
   },
   laziza: {
     name: "Laziza",
-    image: "/laziza.jpg",
+    image: "/Laziza.jpg",
     schedule: "Mån–Fre: 11.00 – 14.00",
   },
   "smaka-pa-kina": {
