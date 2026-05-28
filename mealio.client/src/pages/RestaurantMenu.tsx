@@ -21,37 +21,42 @@ const RESTAURANTS: Record<
   nordrest: {
     name: "Nordrest",
     image: "/nordrest.webp",
-    schedule: "Mån–Fre: kl. 11.15 – 13.15",
+    schedule: "Mån–Fre: 11.15 – 13.15",
   },
   bryggan: {
     name: "Bryggan Kök & Cafe",
     image: "/bryggan.jpg",
-    schedule: "Mån–Fre: kl. 11.30 – 13.30",
+    schedule: "Mån–Fre: 11.30 – 13.30",
   },
   laziza: {
     name: "Laziza",
     image: "/laziza.jpg",
-    schedule: "Mån–Fre: lunchbuffé",
+    schedule: "Mån–Fre: 11.00 – 14.00",
   },
   "smaka-pa-kina": {
     name: "Smaka på Kina",
     image: "/smaka-pa-kina.jpg",
-    schedule: "Mån–Fre: lunch",
+    schedule: "Mån–Fre: 11.00 – 14.00",
   },
   inspira: {
     name: "Inspira",
     image: "/inspira.jpg",
-    schedule: "Mån–Fre: lunch",
+    schedule: "Mån–Fre: 11:30 – 13:30",
   },
   "salads-and-smoothies": {
     name: "Salads and Smoothies",
     image: "/salads-and-smoothies.jpg",
-    schedule: "Mån–Fre: sallader, wraps & poké bowls",
+    schedule: "Mån–Fre: 08.00 – 14.00",
   },
   "bricks-eatery": {
     name: "Bricks Eatery",
     image: "/bricks-eatery.webp",
     schedule: "Mån–Fre: 11.00 – 13.30",
+  },
+  "sony-eatery": {
+    name: "Sony Eatery",
+    image: "/sony-eatery.jpg",
+    schedule: "Mån–Fre: 11.00 – 14.00",
   },
 };
 

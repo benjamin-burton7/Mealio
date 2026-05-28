@@ -14,21 +14,21 @@ export default function Home() {
         <div className="grid grid-cols-2 gap-5">
           <ActivityCard
             title="Nordrest"
-            schedule="Mån–Fre: kl. 11.15 – 13.15"
+            schedule="Mån–Fre: 11.15 – 13.15"
             image="/nordrest.webp"
             id="nordrest"
           />
 
           <ActivityCard
             title="Edison"
-            schedule="Mån–Fre: kl. 11.15 – 13.30"
+            schedule="Mån–Fre: 11.15 – 13.30"
             image="/edison.webp"
             id="edison"
           />
 
           <ActivityCard
             title="Bryggan"
-            schedule="Mån–Fre: kl. 11.30 – 13.30"
+            schedule="Mån–Fre: 11.30 – 13.30"
             image="/bryggan.jpg"
             id="bryggan"
           />
@@ -56,16 +56,23 @@ export default function Home() {
 
           <ActivityCard
             title="Salads & Smoothies"
-            schedule="Mån–Fre: kl. 08.00 – 14.00"
+            schedule="Mån–Fre: 08.00 – 14.00"
             image="/salads-and-smoothies.jpg"
             id="salads-and-smoothies"
           />
 
           <ActivityCard
             title="Bricks Eatery"
-            schedule="Mån–Fre: lunch"
+            schedule="Mån–Fre: 11.00 – 13.30"
             image="/bricks-eatery.webp"
             id="bricks-eatery"
+          />
+
+          <ActivityCard
+            title="Sony Eatery"
+            schedule="Mån–Fre: 11.00 – 14.00"
+            image="/sony-eatery.jpg"
+            id="sony-eatery"
           />
         </div>
       </main>
