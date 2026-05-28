@@ -1,0 +1,95 @@
+{
+  "week": "V22",
+  "days": {
+    "Måndag": [
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Krispig saltade kyckling"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Peking fläskstrimlor"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Yuxiang aubergine"
+      }
+    ],
+    "Tisdag": [
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Gongbao kyckling"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Sötsur kamben"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Kinakål med glasnudlar och vitlök sås"
+      }
+    ],
+    "Onsdag": [
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Dongpo sidfläsk"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Yuxiang kyckling"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Bakad pumpa med saltad ankäggula"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Spenat med tofu"
+      }
+    ],
+    "Torsdag": [
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Bondes stekt fläsk"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Ångkokt fisk"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Snabbstekt pak choi med shitake"
+      }
+    ],
+    "Fredag": [
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Chili kyckling"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Biff med ostronsås, gul lök och paprika"
+      },
+      {
+        "category": "Lunch",
+        "price": "110:-",
+        "dish": "Snabbstekt champinjon"
+      }
+    ]
+  }
+}

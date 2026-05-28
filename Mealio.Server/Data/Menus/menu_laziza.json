@@ -1,0 +1,11 @@
+{
+    "week": "static",
+    "isStatic": true,
+    "items": [
+        {
+            "category": "Buffé",
+            "price": "145:-",
+            "dish": "Libanesisk lunchbuffé, varm & kall meze, sallader och röror"
+        }
+    ]
+}

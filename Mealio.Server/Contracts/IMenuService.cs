@@ -4,5 +4,5 @@ namespace Mealio.Server.Contracts;
 
 public interface IMenuService
 {
-    Task<EdisonMenuDto?> GetEdisonMenuAsync();
+    Task<MenuDto?> GetMenuAsync(string restaurantId);
 }

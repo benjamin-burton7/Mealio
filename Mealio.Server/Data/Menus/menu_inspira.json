@@ -1,0 +1,95 @@
+{
+  "week": "vecka 22",
+  "days": {
+    "Måndag": [
+      {
+        "category": "Green",
+        "dish": "Bönchili, ris | nachos | gräddfil & jalapeños"
+      },
+      {
+        "category": "Local",
+        "dish": "Kalkonlårfilé & bakad spetskål, rostad potatis | äpple & rabarberchutney"
+      },
+      {
+        "category": "Asia",
+        "dish": "Buldak fire chicken, jasminris & Kimchi"
+      },
+      {
+        "category": "World",
+        "dish": "Pasulj (korv & böngryta från Balkan), fetaost | feferoni & rostad potatis"
+      }
+    ],
+    "Tisdag": [
+      {
+        "category": "Green",
+        "dish": "Pasta Pesto, kronärtskocka | mozzarella & bönor"
+      },
+      {
+        "category": "Local",
+        "dish": "Fiskgryta, räkor | fänkål | dill | färskpotatis & saffransaioli"
+      },
+      {
+        "category": "Asia",
+        "dish": "Buldak fire chicken, jasminris & Kimchi"
+      },
+      {
+        "category": "World",
+        "dish": "kryddbakad karré, chimichurri | quinoa & sötpotatis"
+      }
+    ],
+    "Onsdag": [
+      {
+        "category": "Green",
+        "dish": "Majsfritters, klyftpotatis | coleslaw & barbecue sås"
+      },
+      {
+        "category": "Local",
+        "dish": "Wallenbergare, mos | ärtor | lingon & brynt smör"
+      },
+      {
+        "category": "Asia",
+        "dish": "Tom yum, scampi | sojabönor | jasminris & lime"
+      },
+      {
+        "category": "World",
+        "dish": "kryddbakad karré, chimichurri | quinoa & sötpotatis"
+      }
+    ],
+    "Torsdag": [
+      {
+        "category": "Green",
+        "dish": "Lo Mein nudlar, marinerad tofu & Pak Choi"
+      },
+      {
+        "category": "Local",
+        "dish": "Grillad Pluma, rostad potatis | chilibea & färska bönor"
+      },
+      {
+        "category": "Asia",
+        "dish": "Tom yum, scampi | sojabönor | jasminris & lime"
+      },
+      {
+        "category": "World",
+        "dish": "Saltimbocca på kyckling, örtrostad potatis | salviasky & bakad tomat"
+      }
+    ],
+    "Fredag": [
+      {
+        "category": "Green",
+        "dish": "Malai kofta (Indien), basmatiris & naan"
+      },
+      {
+        "category": "Local",
+        "dish": "Lasagne, ruccola & lagrad ost"
+      },
+      {
+        "category": "Asia",
+        "dish": "Pad thai, risnudlar | kyckling | ägg | jordnötter & lime"
+      },
+      {
+        "category": "World",
+        "dish": "Saltimbocca på kyckling, örtrostad potatis | salviasky & bakad tomat"
+      }
+    ]
+  }
+}
