@@ -4,8 +4,10 @@ import json
 import sys
 from datetime import date
 from pathlib import Path
+from io import BytesIO
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
+from pypdf import PdfReader
 
 
 def _current_week() -> str:
@@ -49,6 +51,54 @@ def _fetch(url: str) -> BeautifulSoup:
     return BeautifulSoup(resp.text, "html.parser")
 
 
+def _fetch_pdf_text(url: str) -> str:
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; MenuBot/1.0)"}
+    resp = requests.get(url, headers=headers, timeout=20)
+    resp.raise_for_status()
+
+    reader = PdfReader(BytesIO(resp.content))
+
+    text_parts = []
+    for page in reader.pages:
+        page_text = page.extract_text() or ""
+        text_parts.append(page_text)
+
+    text = "\n".join(text_parts)
+    text = re.sub(r"\r\n?", "\n", text)
+    text = re.sub(r"\n{2,}", "\n", text)
+    return text
+
+
+def _find_pdf_link_from_page(url: str, preferred_text: str = "Lunchmeny") -> str:
+    soup = _fetch(url)
+    links = soup.find_all("a", href=True)
+
+    # First try: find the menu button/link by visible text.
+    for link in links:
+        text = link.get_text(" ", strip=True)
+        href = link["href"]
+
+        if preferred_text.lower() in text.lower() and ".pdf" in href.lower():
+            return requests.compat.urljoin(url, href)
+
+    # Second try: Eatery may use English text.
+    for link in links:
+        text = link.get_text(" ", strip=True)
+        href = link["href"]
+
+        if "lunch menu" in text.lower() and ".pdf" in href.lower():
+            return requests.compat.urljoin(url, href)
+
+    # Fallback: use the first PDF link on the page.
+    for link in links:
+        href = link["href"]
+
+        if ".pdf" in href.lower():
+            return requests.compat.urljoin(url, href)
+
+    raise ValueError(f"No PDF link found on page: {url}")
+
+
 def _visible_text(soup: BeautifulSoup) -> str:
     for tag in soup(["script", "style", "noscript", "svg"]):
         tag.decompose()
@@ -79,12 +129,15 @@ def _normalize_category(line: str) -> str:
     if line.lower() == "world wide":
         return "World Wide"
 
+    if line.lower() == "pizza":
+        return "Pizza"
+
     return line.title()
 
 
 def scrape_line_based_category_menu(url: str) -> dict:
     """
-    Works for Edison-style pages:
+    Works for Edison/Bricks-style pages:
 
     Vecka 20
     Måndag
@@ -125,8 +178,10 @@ def scrape_line_based_category_menu(url: str) -> dict:
             dish = None
 
             price_m = re.match(r"(\d+\s*:-)", lines[i + 1]) if i + 1 < len(lines) else None
+
             if price_m:
                 price = price_m.group(1).replace(" ", "")
+
                 if i + 2 < len(lines):
                     next_line = lines[i + 2]
 
@@ -345,7 +400,6 @@ def scrape_intendit_menu(url: str) -> dict:
 
     menu = empty_menu(week)
 
-    # First try Edison-style line based parsing.
     line_based = scrape_line_based_category_menu(url)
     if any(len(items) > 0 for items in line_based["days"].values()):
         return line_based
@@ -412,14 +466,17 @@ def scrape_inspira_menu(url: str) -> dict:
 
         items = []
         j = 0
+
         while j < len(lines):
             m = re.match(r"(Green|Local|Asia|World)\s*\|\s*(.+)", lines[j], re.IGNORECASE)
+
             if m:
                 category = m.group(1).title()
                 dish = m.group(2).strip()
 
                 if j + 1 < len(lines):
                     next_line = lines[j + 1]
+
                     if (
                         not re.match(r"(Green|Local|Asia|World)\s*\|", next_line, re.IGNORECASE)
                         and not _is_day(next_line)
@@ -499,18 +556,17 @@ def scrape_laziza_menu(url: str) -> dict:
     price_m = re.search(r"(\d+)\s*kr", text)
     price = f"{price_m.group(1)}:-" if price_m else "145:-"
 
-    menu = empty_menu("static")
-
-    for day in DAYS:
-        menu["days"][day] = [
+    return {
+        "week": "static",
+        "isStatic": True,
+        "items": [
             {
                 "category": "Buffé",
                 "price": price,
                 "dish": "Libanesisk lunchbuffé, varm & kall meze, sallader och röror",
             }
-        ]
-
-    return menu
+        ],
+    }
 
 
 def scrape_matochmat_menu(url: str) -> dict:
@@ -594,16 +650,142 @@ def scrape_saladsandsmoothies_menu(url: str) -> dict:
                 }
             )
 
-    menu = empty_menu("static")
+    return {
+        "week": "static",
+        "isStatic": True,
+        "items": items,
+    }
 
-    for day in DAYS:
+
+def scrape_eatery_pdf_menu(url: str) -> dict:
+    parsed = urlparse(url)
+    path = parsed.path.lower()
+
+    # If the user gives the webpage instead of the PDF,
+    # find the current Lunchmeny PDF link automatically.
+    if not path.endswith(".pdf") and "thatsup.website" not in parsed.netloc.lower():
+        url = _find_pdf_link_from_page(url, preferred_text="Lunchmeny")
+
+    text = _fetch_pdf_text(url)
+
+    week_m = re.search(r"\bV\s*(\d+)\b", text, re.IGNORECASE)
+    week = f"V{week_m.group(1)}" if week_m else _current_week()
+
+    menu = empty_menu(week)
+
+    day_heading_re = re.compile(
+        r"\b(MÅNDAG|TISDAG|ONSDAG|TORSDAG|FREDAG)\b",
+        re.IGNORECASE,
+    )
+
+    day_map = {
+        "MÅNDAG": "Måndag",
+        "TISDAG": "Tisdag",
+        "ONSDAG": "Onsdag",
+        "TORSDAG": "Torsdag",
+        "FREDAG": "Fredag",
+    }
+
+    parts = day_heading_re.split(text)
+
+    skip_patterns = [
+        r"^LUNCH$",
+        r"^MENY$",
+        r"^V\d+",
+        r"Med reservation",
+        r"GENERÖS SALLADSBUFFÉ",
+        r"NYBAKAT BRÖD",
+        r"BUBBELVATTEN",
+        r"KAFFE",
+        r"10% RABATT",
+        r"Eateryappen",
+        r"Sweet Tuesday",
+        r"Pancake Thursday",
+        r"NÅGOT SÖTT",
+        r"PANNKAKOR",
+    ]
+
+    def should_skip(line: str) -> bool:
+        return any(re.search(pattern, line, re.IGNORECASE) for pattern in skip_patterns)
+
+    def is_likely_continuation(previous_line: str, current_line: str) -> bool:
+        previous_line = previous_line.strip()
+        current_line = current_line.strip()
+
+        if not previous_line or not current_line:
+            return False
+
+        # PDF line breaks often split one dish after a comma.
+        if previous_line.endswith(","):
+            return True
+
+        # Continuation lines often start lowercase.
+        if current_line[0].islower():
+            return True
+
+        # Short ingredient-only line, such as "groddar & jordnötter".
+        if len(current_line) < 35 and " & " in current_line:
+            return True
+
+        return False
+
+    for i in range(1, len(parts) - 1, 2):
+        raw_day = parts[i].strip().upper()
+        content = parts[i + 1]
+
+        day = day_map.get(raw_day)
+
+        if not day:
+            continue
+
+        raw_lines = [
+            re.sub(r"\s+", " ", line).strip()
+            for line in content.splitlines()
+            if line.strip()
+        ]
+
+        cleaned_lines = []
+
+        for line in raw_lines:
+            if should_skip(line):
+                continue
+
+            if re.fullmatch(r"(MÅNDAG|TISDAG|ONSDAG|TORSDAG|FREDAG)", line, re.IGNORECASE):
+                break
+
+            if len(line) < 4:
+                continue
+
+            if cleaned_lines and is_likely_continuation(cleaned_lines[-1], line):
+                cleaned_lines[-1] = f"{cleaned_lines[-1]} {line}"
+            else:
+                cleaned_lines.append(line)
+
+        items = []
+
+        for line in cleaned_lines:
+            if len(line) < 12:
+                continue
+
+            items.append(
+                {
+                    "category": "Lunch",
+                    "dish": line,
+                }
+            )
+
         menu["days"][day] = items
 
     return menu
 
 
 def _detect_scraper(url: str):
-    domain = urlparse(url).netloc.lower()
+    parsed = urlparse(url)
+    domain = parsed.netloc.lower()
+    path = parsed.path.lower()
+
+    if path.endswith(".pdf") or "thatsup.website" in domain or "eatery" in domain:
+        return scrape_eatery_pdf_menu
 
     if "nordrest.se" in domain:
         return scrape_nordrest_menu
@@ -632,6 +814,15 @@ def _detect_scraper(url: str):
     return scrape_intendit_menu
 
 
+def _get_solution_root() -> Path:
+    current_dir = Path(__file__).resolve().parent
+
+    if current_dir.name.lower() == "scraper":
+        return current_dir.parent
+
+    return current_dir
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Usage: python webscraping.py <name> <url>")
@@ -649,7 +840,7 @@ if __name__ == "__main__":
         print(f"Error scraping menu: {e}")
         sys.exit(1)
 
-    solution_root = Path(__file__).resolve().parent
+    solution_root = _get_solution_root()
     output_dir = solution_root / "Mealio.Server" / "Data" / "Menus"
     output_dir.mkdir(parents=True, exist_ok=True)
 

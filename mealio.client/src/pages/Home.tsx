@@ -56,16 +56,23 @@ export default function Home() {
 
           <ActivityCard
             title="Salads & Smoothies"
-            schedule="Mån–Fre: kl. 08.00 – 14.00"
+            schedule="Mån–Fre: 08.00 – 14.00"
             image="/salads-and-smoothies.jpg"
             id="salads-and-smoothies"
           />
 
           <ActivityCard
             title="Bricks Eatery"
-            schedule="Mån–Fre: lunch"
+            schedule="Mån–Fre: 11.00 – 13.30"
             image="/bricks-eatery.webp"
             id="bricks-eatery"
+          />
+
+          <ActivityCard
+            title="Sony Eatery"
+            schedule="Mån–Fre: 11.00 – 14.00"
+            image="/sony-eatery.jpg"
+            id="sony-eatery"
           />
         </div>
       </main>
