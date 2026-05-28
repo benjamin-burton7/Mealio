@@ -1,9 +1,9 @@
 name: Update Restaurant Menus
 
 on:
-  push:
-    branches:
-      - workflow-update    
+#  push:
+#    branches:
+#      - workflow-update    
 #  schedule:
 #    - cron: "0 5 * * 1"   # Måndag kl 7
   workflow_dispatch:
