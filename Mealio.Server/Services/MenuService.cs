@@ -1,12 +1,13 @@
-﻿using System.Text;
+﻿using System.Collections.Concurrent;
+using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Mealio.Server.Contracts;
 using Mealio.Server.Dtos;
 
 namespace Mealio.Server.Services;
 
 public class MenuService(
-    IConfiguration config,
     IWebHostEnvironment environment,
     ILogger<MenuService> logger) : IMenuService
 {
@@ -15,43 +16,88 @@ public class MenuService(
         PropertyNameCaseInsensitive = true
     };
 
-    private readonly Dictionary<string, string> _menuPaths = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly Regex ValidRestaurantIdPattern = new(
+        "^[a-z0-9-]+$",
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    private record CachedMenu(MenuDto Menu, DateTimeOffset ExpiresAt);
+
+    private readonly ConcurrentDictionary<string, CachedMenu> _cache = new();
+
+    private static string GetRelativePath(string restaurantId)
     {
-        ["edison"] = config["MenuSettings:EdisonMenuPath"] ?? "Data/Menus/menu_edison.json",
-        ["nordrest"] = config["MenuSettings:NordrestMenuPath"] ?? "Data/Menus/menu_nordrest.json",
-        ["bryggan"] = config["MenuSettings:BrygganMenuPath"] ?? "Data/Menus/menu_bryggan.json",
-        ["laziza"] = config["MenuSettings:LazizaMenuPath"] ?? "Data/Menus/menu_laziza.json",
-        ["smaka-pa-kina"] = config["MenuSettings:SmakaPaKinaMenuPath"] ?? "Data/Menus/menu_smaka_pa_kina.json",
-        ["inspira"] = config["MenuSettings:InspiraMenuPath"] ?? "Data/Menus/menu_inspira.json",
-        ["salads-and-smoothies"] = config["MenuSettings:SaladsAndSmoothiesMenuPath"] ?? "Data/Menus/menu_salads_and_smoothies.json",
-        ["bricks-eatery"] = config["MenuSettings:BricksEateryMenuPath"] ?? "Data/Menus/menu_bricks_eatery.json",
-        ["sony-eatery"] = config["MenuSettings:SonyEateryMenuPath"] ?? "Data/Menus/menu_sony_eatery.json",
-    };
-        
+        var fileNameRestaurantId = restaurantId.Replace('-', '_');
+
+        return $"Data/Menus/menu_{fileNameRestaurantId}.json";
+    }
+
     public async Task<MenuDto?> GetMenuAsync(string restaurantId)
     {
-        if (!_menuPaths.TryGetValue(restaurantId, out var relativePath))
+        if (!ValidRestaurantIdPattern.IsMatch(restaurantId))
         {
-            logger.LogWarning("Unknown restaurant id: {RestaurantId}", restaurantId);
+            logger.LogWarning(
+                "Invalid restaurant id requested: {RestaurantId}",
+                restaurantId);
+
             return null;
         }
 
+        if (
+            _cache.TryGetValue(restaurantId, out var cached)
+            && cached.ExpiresAt > DateTimeOffset.Now
+        )
+        {
+            return cached.Menu;
+        }
+
+        var relativePath = GetRelativePath(restaurantId);
         var menuPath = Path.Combine(environment.ContentRootPath, relativePath);
 
         if (!File.Exists(menuPath))
         {
-            logger.LogWarning("Menu file for {RestaurantId} was not found at {Path}", restaurantId, menuPath);
+            logger.LogWarning(
+                "Menu file for {RestaurantId} was not found at {Path}",
+                restaurantId,
+                menuPath);
+
             return null;
         }
 
         try
         {
             var json = await File.ReadAllTextAsync(menuPath, Encoding.UTF8);
-            return JsonSerializer.Deserialize<MenuDto>(json, JsonOptions);
+            var menu = JsonSerializer.Deserialize<MenuDto>(json, JsonOptions);
+
+            if (menu is null)
+            {
+                logger.LogWarning(
+                    "Menu for {RestaurantId} deserialized to null",
+                    restaurantId);
+
+                return null;
+            }
+
+            var nextCacheExpiry = DateTime.Today.AddHours(8);
+
+            if (DateTime.Now >= nextCacheExpiry)
+            {
+                nextCacheExpiry = nextCacheExpiry.AddDays(1);
+            }
+
+            _cache[restaurantId] = new CachedMenu(
+                menu,
+                new DateTimeOffset(nextCacheExpiry));
+
+            return menu;
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to deserialize menu for {RestaurantId} from {Path}", restaurantId, menuPath);
+            logger.LogError(
+                ex,
+                "Failed to deserialize menu for {RestaurantId} from {Path}",
+                restaurantId,
+                menuPath);
+
             return null;
         }
     }

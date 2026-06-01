@@ -13,9 +13,7 @@ public class MenuController(IMenuService menuService) : ControllerBase
         var menu = await menuService.GetMenuAsync(restaurantId);
 
         if (menu is null)
-        {
-            return NotFound($"Menu for '{restaurantId}' was not found.");
-        }
+            return NotFound();
 
         return Ok(menu);
     }
