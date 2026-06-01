@@ -1,27 +1,20 @@
 import { Link } from "react-router-dom";
+import type { RestaurantLocation } from "../data/restaurants";
 
-type ActivityCardProps = {
-  title: string;
-  schedule: string;
-  image: string;
-  id: string;
+type RestaurantCardProps = {
+  restaurant: RestaurantLocation;
 };
 
-export default function ActivityCard({
-  title,
-  schedule,
-  image,
-  id,
-}: ActivityCardProps) {
+export default function RestaurantCard({ restaurant }: RestaurantCardProps) {
   return (
     <Link
-      to={`/restaurant/${id}`}
+      to={`/restaurant/${restaurant.id}`}
       className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-sm transition-transform active:scale-95 sm:aspect-square"
-      aria-label={`Visa meny för ${title}`}
+      aria-label={`Visa meny för ${restaurant.name}`}
     >
       <img
-        src={image}
-        alt={title}
+        src={restaurant.image}
+        alt={restaurant.name}
         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
 
@@ -29,10 +22,10 @@ export default function ActivityCard({
 
       <div className="absolute inset-x-3 bottom-3 text-center text-white">
         <p className="text-sm font-extrabold leading-none sm:text-base">
-          {title}
+          {restaurant.name}
         </p>
         <p className="mt-1 text-[11px] font-semibold leading-none opacity-90 sm:text-xs">
-          {schedule}
+          {restaurant.schedule}
         </p>
       </div>
     </Link>

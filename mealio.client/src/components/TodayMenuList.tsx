@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { getMenu } from "../services/menuService";
 import type { RestaurantLocation } from "../data/restaurants";
-import type { DishDto, MenuDto } from "../types/menu";
+import type { DishDto } from "../types/menu";
 
 type RestaurantTodayMenu = {
   restaurant: RestaurantLocation;
@@ -29,11 +31,15 @@ export default function TodayMenuList({ restaurants }: TodayMenuListProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const today = useMemo(() => {
-    const dayIndex = new Date().getDay();
-    return SWEDISH_WEEKDAYS[dayIndex];
+    return SWEDISH_WEEKDAYS[new Date().getDay()];
   }, []);
 
   const isWeekend = today === "Lördag" || today === "Söndag";
+
+  const totalDishCount = useMemo(
+    () => menus.reduce((total, menu) => total + menu.dishes.length, 0),
+    [menus],
+  );
 
   useEffect(() => {
     async function loadMenus() {
@@ -48,14 +54,7 @@ export default function TodayMenuList({ restaurants }: TodayMenuListProps) {
 
         const results = await Promise.all(
           restaurants.map(async (restaurant) => {
-            const response = await fetch(restaurant.menuPath);
-
-            if (!response.ok) {
-              throw new Error(`Failed to fetch ${restaurant.name}`);
-            }
-
-            const menu: MenuDto = await response.json();
-
+            const menu = await getMenu(restaurant.id);
             const dishes = menu.isStatic
               ? (menu.items ?? [])
               : (menu.days?.[today] ?? []);
@@ -79,11 +78,6 @@ export default function TodayMenuList({ restaurants }: TodayMenuListProps) {
 
     loadMenus();
   }, [restaurants, today, isWeekend]);
-
-  const totalDishCount = menus.reduce(
-    (total, menu) => total + menu.dishes.length,
-    0,
-  );
 
   return (
     <>
@@ -202,18 +196,17 @@ export default function TodayMenuList({ restaurants }: TodayMenuListProps) {
                       className="overflow-hidden rounded-[1.75rem] bg-white shadow-sm"
                     >
                       <div className="border-b border-[#61B3AA]/15 px-5 py-5">
-                        <div>
-                          <a
-                            href={`/restaurant/${restaurant.id}`}
-                            className="text-xl font-extrabold text-[#0B5A4A]"
-                          >
-                            {restaurant.name}
-                          </a>
+                        <Link
+                          to={`/restaurant/${restaurant.id}`}
+                          className="text-xl font-extrabold text-[#0B5A4A]"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {restaurant.name}
+                        </Link>
 
-                          <p className="mt-1 text-sm font-semibold leading-snug text-[#61B3AA]">
-                            {isStatic ? "Fast meny" : restaurant.schedule}
-                          </p>
-                        </div>
+                        <p className="mt-1 text-sm font-semibold leading-snug text-[#61B3AA]">
+                          {isStatic ? "Fast meny" : restaurant.schedule}
+                        </p>
                       </div>
 
                       <div className="flex flex-col divide-y divide-[#61B3AA]/10">
