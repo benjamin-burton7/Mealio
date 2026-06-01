@@ -1,42 +1,85 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import type { RestaurantLocation } from "../data/restaurants";
-
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 type RestaurantMapProps = {
   restaurants: RestaurantLocation[];
 };
 
-const defaultIcon = L.icon({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-L.Marker.prototype.options.icon = defaultIcon;
-
 function getGoogleMapsWalkingUrl(restaurant: RestaurantLocation) {
   return `https://www.google.com/maps/dir/?api=1&destination=${restaurant.lat},${restaurant.lng}&travelmode=walking`;
 }
 
+function createRestaurantIcon(restaurant: RestaurantLocation) {
+  const iconUrl = restaurant.mapIcon ?? restaurant.image;
+
+  return L.divIcon({
+    className: "",
+    html: `
+      <div style="
+        width: 44px;
+        height: 44px;
+        border-radius: 9999px;
+        overflow: hidden;
+        border: 3px solid white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        background: white;
+      ">
+        <img 
+          src="${iconUrl}" 
+          alt="${restaurant.name}" 
+          style="
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+          "
+        />
+      </div>
+    `,
+    iconSize: [44, 44],
+    iconAnchor: [22, 44],
+    popupAnchor: [0, -44],
+  });
+}
+
+function FitMapToRestaurants({
+  restaurants,
+}: {
+  restaurants: RestaurantLocation[];
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (restaurants.length === 0) return;
+
+    const bounds = L.latLngBounds(
+      restaurants.map((restaurant) => [restaurant.lat, restaurant.lng]),
+    );
+
+    map.fitBounds(bounds, {
+      padding: [40, 40],
+      maxZoom: 15,
+    });
+  }, [map, restaurants]);
+
+  return null;
+}
+
 export default function RestaurantMap({ restaurants }: RestaurantMapProps) {
-  const center: [number, number] = [55.7181, 13.2198];
+  const fallbackCenter: [number, number] = [55.7181, 13.2198];
 
   return (
     <div className="h-72 w-full overflow-hidden rounded-2xl shadow">
       <MapContainer
-        center={center}
-        zoom={16}
+        center={fallbackCenter}
+        zoom={15}
         scrollWheelZoom={false}
         className="h-full w-full"
       >
+        <FitMapToRestaurants restaurants={restaurants} />
+
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -46,6 +89,7 @@ export default function RestaurantMap({ restaurants }: RestaurantMapProps) {
           <Marker
             key={restaurant.id}
             position={[restaurant.lat, restaurant.lng]}
+            icon={createRestaurantIcon(restaurant)}
           >
             <Popup>
               <div className="min-w-40">
