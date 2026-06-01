@@ -1,4 +1,5 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import type { RestaurantLocation } from "../data/restaurants";
 
@@ -43,17 +44,42 @@ function createRestaurantIcon(restaurant: RestaurantLocation) {
   });
 }
 
+function FitMapToRestaurants({
+  restaurants,
+}: {
+  restaurants: RestaurantLocation[];
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (restaurants.length === 0) return;
+
+    const bounds = L.latLngBounds(
+      restaurants.map((restaurant) => [restaurant.lat, restaurant.lng]),
+    );
+
+    map.fitBounds(bounds, {
+      padding: [40, 40],
+      maxZoom: 15,
+    });
+  }, [map, restaurants]);
+
+  return null;
+}
+
 export default function RestaurantMap({ restaurants }: RestaurantMapProps) {
-  const center: [number, number] = [55.7181, 13.2198];
+  const fallbackCenter: [number, number] = [55.7181, 13.2198];
 
   return (
     <div className="h-72 w-full overflow-hidden rounded-2xl shadow">
       <MapContainer
-        center={center}
-        zoom={16}
+        center={fallbackCenter}
+        zoom={15}
         scrollWheelZoom={false}
         className="h-full w-full"
       >
+        <FitMapToRestaurants restaurants={restaurants} />
+
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
