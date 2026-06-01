@@ -2,28 +2,45 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import type { RestaurantLocation } from "../data/restaurants";
 
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
-
 type RestaurantMapProps = {
   restaurants: RestaurantLocation[];
 };
 
-const defaultIcon = L.icon({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-L.Marker.prototype.options.icon = defaultIcon;
-
 function getGoogleMapsWalkingUrl(restaurant: RestaurantLocation) {
   return `https://www.google.com/maps/dir/?api=1&destination=${restaurant.lat},${restaurant.lng}&travelmode=walking`;
+}
+
+function createRestaurantIcon(restaurant: RestaurantLocation) {
+  const iconUrl = restaurant.mapIcon ?? restaurant.image;
+
+  return L.divIcon({
+    className: "",
+    html: `
+      <div style="
+        width: 44px;
+        height: 44px;
+        border-radius: 9999px;
+        overflow: hidden;
+        border: 3px solid white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        background: white;
+      ">
+        <img 
+          src="${iconUrl}" 
+          alt="${restaurant.name}" 
+          style="
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+          "
+        />
+      </div>
+    `,
+    iconSize: [44, 44],
+    iconAnchor: [22, 44],
+    popupAnchor: [0, -44],
+  });
 }
 
 export default function RestaurantMap({ restaurants }: RestaurantMapProps) {
@@ -46,6 +63,7 @@ export default function RestaurantMap({ restaurants }: RestaurantMapProps) {
           <Marker
             key={restaurant.id}
             position={[restaurant.lat, restaurant.lng]}
+            icon={createRestaurantIcon(restaurant)}
           >
             <Popup>
               <div className="min-w-40">
