@@ -46,15 +46,6 @@ export default function RestaurantMap({ restaurants }: RestaurantMapProps) {
           <Marker
             key={restaurant.id}
             position={[restaurant.lat, restaurant.lng]}
-            eventHandlers={{
-              click: () => {
-                window.open(
-                  getGoogleMapsWalkingUrl(restaurant),
-                  "_blank",
-                  "noopener,noreferrer",
-                );
-              },
-            }}
           >
             <Popup>
               <div className="min-w-40">
@@ -63,6 +54,15 @@ export default function RestaurantMap({ restaurants }: RestaurantMapProps) {
                 <p className="mt-1 text-xs text-gray-600">
                   {restaurant.address}
                 </p>
+
+                <a
+                  href={getGoogleMapsWalkingUrl(restaurant)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-block rounded-full bg-[#0B5A4A] px-3 py-1.5 text-xs font-bold text-white"
+                >
+                  Vägbeskrivning
+                </a>
               </div>
             </Popup>
           </Marker>

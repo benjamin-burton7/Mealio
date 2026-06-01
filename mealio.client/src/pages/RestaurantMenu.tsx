@@ -1,72 +1,28 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
-import type { MenuDto, DishDto } from "../types/menu";
+import { getRestaurantById } from "../data/restaurants";
+import type { RestaurantLocation } from "../data/restaurants";
+import type { DishDto, MenuDto } from "../types/menu";
 
 const DAYS = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"];
 
-const RESTAURANTS: Record<
-  string,
-  {
-    name: string;
-    image: string;
-    schedule: string;
-  }
-> = {
-  edison: {
-    name: "Edison",
-    image: "/Edison.webp",
-    schedule: "Mån–Fre: kl. 11.15 – 13.30",
-  },
-  nordrest: {
-    name: "Nordrest",
-    image: "/Nordrest.webp",
-    schedule: "Mån–Fre: kl. 11.15 – 13.15",
-  },
-  bryggan: {
-    name: "Bryggan Kök & Cafe",
-    image: "/Bryggan.jpg",
-    schedule: "Mån–Fre: kl. 11.30 – 13.30",
-  },
-  laziza: {
-    name: "Laziza",
-    image: "/Laziza.jpg",
-    schedule: "Mån–Fre: 11.00 – 14.00",
-  },
-  "smaka-pa-kina": {
-    name: "Smaka på Kina",
-    image: "/smaka-pa-kina.jpg",
-    schedule: "Mån–Fre: 11.00 – 14.00",
-  },
-  inspira: {
-    name: "Inspira",
-    image: "/inspira.jpg",
-    schedule: "Mån–Fre: 11:30 – 13:30",
-  },
-  "salads-and-smoothies": {
-    name: "Salads and Smoothies",
-    image: "/salads-and-smoothies.jpg",
-    schedule: "Mån–Fre: 08.00 – 14.00",
-  },
-  "bricks-eatery": {
-    name: "Bricks Eatery",
-    image: "/bricks-eatery.webp",
-    schedule: "Mån–Fre: 11.00 – 13.30",
-  },
-  "sony-eatery": {
-    name: "Sony Eatery",
-    image: "/sony-eatery.jpg",
-    schedule: "Mån–Fre: 11.00 – 14.00",
-  },
-};
+type ViewState =
+  | { status: "loading" }
+  | { status: "error"; message: string }
+  | { status: "success"; menu: MenuDto; restaurant: RestaurantLocation };
 
 function MenuItemCard({ item }: { item: DishDto }) {
   return (
-    <div className="flex w-full items-start justify-between gap-3 rounded-xl bg-white px-4 py-3 shadow-sm">
+    <article className="flex w-full items-start justify-between gap-4 rounded-xl bg-white px-4 py-3 shadow-sm">
       <div className="min-w-0">
-        <p className="text-xs font-bold text-[#61B3AA]">{item.category}</p>
+        <p className="text-xs font-bold uppercase tracking-wide text-[#61B3AA]">
+          {item.category}
+        </p>
 
-        <p className="mt-0.5 text-sm font-bold text-[#0B5A4A]">{item.dish}</p>
+        <p className="mt-1 text-sm font-bold leading-snug text-[#0B5A4A]">
+          {item.dish}
+        </p>
       </div>
 
       {item.price && (
@@ -74,6 +30,44 @@ function MenuItemCard({ item }: { item: DishDto }) {
           {item.price}
         </p>
       )}
+    </article>
+  );
+}
+
+function StatusScreen({
+  message,
+  buttonText,
+  onClick,
+  loading = false,
+}: {
+  message: string;
+  buttonText?: string;
+  onClick?: () => void;
+  loading?: boolean;
+}) {
+  return (
+    <div className="min-h-screen bg-[#F1FFF5]">
+      <Header />
+
+      <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4 px-5 text-center">
+        <p
+          className={`font-bold text-[#0B5A4A] ${
+            loading ? "animate-pulse" : ""
+          }`}
+        >
+          {message}
+        </p>
+
+        {buttonText && onClick && (
+          <button
+            type="button"
+            onClick={onClick}
+            className="text-sm font-bold text-[#61B3AA] underline"
+          >
+            {buttonText}
+          </button>
+        )}
+      </main>
     </div>
   );
 }
@@ -82,94 +76,82 @@ export default function RestaurantMenu() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [menu, setMenu] = useState<MenuDto | null>(null);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const selectedRestaurant = useMemo(() => getRestaurantById(id), [id]);
 
-  const restaurant = id ? RESTAURANTS[id] : undefined;
+  const [viewState, setViewState] = useState<ViewState>({
+    status: "loading",
+  });
 
   useEffect(() => {
     async function loadMenu() {
-      if (!id) {
-        setError(true);
-        setLoading(false);
+      if (!id || !selectedRestaurant) {
+        setViewState({
+          status: "error",
+          message: "Restaurangen hittades inte.",
+        });
         return;
       }
 
       try {
-        setLoading(true);
-        setError(false);
+        setViewState({ status: "loading" });
 
-        const response = await fetch(`/api/menu/${id}`);
+        const response = await fetch(selectedRestaurant.menuPath);
 
         if (!response.ok) {
           throw new Error(`Failed to load menu. Status: ${response.status}`);
         }
 
-        const data: MenuDto = await response.json();
-        setMenu(data);
-      } catch (err) {
-        console.error(err);
-        setError(true);
-      } finally {
-        setLoading(false);
+        const menu: MenuDto = await response.json();
+
+        setViewState({
+          status: "success",
+          menu,
+          restaurant: selectedRestaurant,
+        });
+      } catch (error) {
+        console.error(error);
+
+        setViewState({
+          status: "error",
+          message: "Kunde inte ladda menyn.",
+        });
       }
     }
 
     loadMenu();
-  }, [id]);
+  }, [id, selectedRestaurant]);
 
-  if (error) {
+  if (viewState.status === "loading") {
+    return <StatusScreen message="Laddar meny..." loading />;
+  }
+
+  if (viewState.status === "error") {
     return (
-      <div className="min-h-screen bg-[#F1FFF5] flex flex-col items-center justify-center gap-4">
-        <p className="text-[#0B5A4A] font-bold">Kunde inte ladda menyn.</p>
-        <button
-          onClick={() => navigate("/")}
-          className="text-sm underline text-[#61B3AA]"
-        >
-          Tillbaka
-        </button>
-      </div>
+      <StatusScreen
+        message={viewState.message}
+        buttonText="Tillbaka"
+        onClick={() => navigate("/")}
+      />
     );
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#F1FFF5] flex items-center justify-center">
-        <p className="text-[#0B5A4A] font-bold animate-pulse">Laddar meny...</p>
-      </div>
-    );
-  }
-
-  if (!menu || !restaurant) {
-    return (
-      <div className="min-h-screen bg-[#F1FFF5] flex flex-col items-center justify-center gap-4">
-        <p className="text-[#0B5A4A] font-bold">Ingen meny hittades.</p>
-        <button
-          onClick={() => navigate("/")}
-          className="text-sm underline text-[#61B3AA]"
-        >
-          Tillbaka
-        </button>
-      </div>
-    );
-  }
-
+  const { menu, restaurant } = viewState;
   const hasStaticItems = Boolean(menu.isStatic && menu.items?.length);
 
   return (
     <div className="min-h-screen bg-[#F1FFF5]">
       <Header />
 
-      <main className="w-full px-4 pt-6 pb-8">
+      <main className="w-full px-4 pb-8 pt-6">
         <button
+          type="button"
           onClick={() => navigate(-1)}
           className="mb-5 flex items-center gap-1 text-sm font-semibold text-[#0B5A4A]"
         >
           ← Tillbaka
         </button>
 
-        <div className="relative h-44 w-full overflow-hidden rounded-2xl mb-3">
+        <section className="relative mb-3 h-44 w-full overflow-hidden rounded-2xl">
           <img
             src={restaurant.image}
             alt={restaurant.name}
@@ -179,27 +161,28 @@ export default function RestaurantMenu() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
           <div className="absolute bottom-4 left-4 text-white">
-            <h2 className="text-2xl font-extrabold italic">
+            <h1 className="text-2xl font-extrabold italic">
               {restaurant.name}
-            </h2>
+            </h1>
+
             <p className="text-xs font-semibold opacity-80">
               {restaurant.schedule}
             </p>
           </div>
-        </div>
+        </section>
 
-        <p className="mb-4 text-xs text-[#61B3AA] font-semibold">
+        <p className="mb-4 text-xs font-semibold text-[#61B3AA]">
           {menu.isStatic ? "Fast meny" : menu.week}
         </p>
 
-        <h3 className="mb-4 text-xl font-extrabold uppercase italic text-[#0B5A4A]">
+        <h2 className="mb-4 text-xl font-extrabold uppercase italic text-[#0B5A4A]">
           {menu.isStatic ? "Meny:" : "Veckans meny:"}
-        </h3>
+        </h2>
 
         {hasStaticItems ? (
           <div className="flex flex-col gap-2">
-            {menu.items?.map((item, i) => (
-              <MenuItemCard key={`static-${i}`} item={item} />
+            {menu.items?.map((item, index) => (
+              <MenuItemCard key={`static-${index}`} item={item} />
             ))}
           </div>
         ) : (
@@ -210,17 +193,17 @@ export default function RestaurantMenu() {
               if (!dishes?.length) return null;
 
               return (
-                <div key={day}>
-                  <h4 className="mb-2 text-sm font-extrabold uppercase tracking-wide text-[#61B3AA]">
+                <section key={day}>
+                  <h3 className="mb-2 text-sm font-extrabold uppercase tracking-wide text-[#61B3AA]">
                     {day}
-                  </h4>
+                  </h3>
 
                   <div className="flex flex-col gap-2">
-                    {dishes.map((item, i) => (
-                      <MenuItemCard key={`${day}-${i}`} item={item} />
+                    {dishes.map((item, index) => (
+                      <MenuItemCard key={`${day}-${index}`} item={item} />
                     ))}
                   </div>
-                </div>
+                </section>
               );
             })}
           </div>
