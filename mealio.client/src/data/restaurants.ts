@@ -34,7 +34,7 @@ export const restaurants: RestaurantLocation[] = [
     id: "bryggan",
     name: "Bryggan",
     schedule: "Mån–Fre: kl. 11.30–13.30",
-    image: "/Bryggan.jpg",
+    image: "/bryggan.jpg",
     address: "Lund",
     lat: 55.7047,
     lng: 13.191,
@@ -44,7 +44,7 @@ export const restaurants: RestaurantLocation[] = [
     id: "laziza",
     name: "Laziza",
     schedule: "Mån–Fre: kl. 11.00–15.00",
-    image: "/Laziza.jpg",
+    image: "/laziza.jpg",
     address: "Lund",
     lat: 55.7047,
     lng: 13.191,
@@ -101,3 +101,9 @@ export const restaurants: RestaurantLocation[] = [
     menuPath: "/api/menu/sony-eatery",
   },
 ];
+
+export function getRestaurantById(id?: string) {
+  if (!id) return undefined;
+
+  return restaurants.find((restaurant) => restaurant.id === id);
+}

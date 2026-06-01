@@ -14,15 +14,21 @@ export default function MapButton({ restaurants }: MapButtonProps) {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#0B5A4A] text-2xl text-white shadow-lg"
+        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#0B5A4A] text-2xl text-white shadow-lg active:scale-95"
         aria-label="Visa karta"
       >
         🗺️
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 px-4 py-20">
-          <div className="mx-auto max-w-md overflow-hidden rounded-2xl bg-white shadow-xl">
+        <div
+          className="fixed inset-0 z-50 bg-black/50 px-4 py-20"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            className="mx-auto max-w-md overflow-hidden rounded-2xl bg-white shadow-xl"
+            onClick={(event) => event.stopPropagation()}
+          >
             <div className="flex items-center justify-between bg-[#61B3AA] px-4 py-3">
               <h2 className="text-lg font-extrabold italic text-[#0B5A4A]">
                 Karta
