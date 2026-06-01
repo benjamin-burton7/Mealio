@@ -11,14 +11,14 @@ export default function Home() {
 
       <MapButton restaurants={restaurants} />
 
-      <main className="px-5 pt-6">
+      <main className="mx-auto w-full max-w-6xl px-4 pt-6 pb-10 sm:px-6 lg:px-8">
         <TodayMenuList restaurants={restaurants} />
 
         <h2 className="mb-6 text-xl font-extrabold uppercase italic text-[#0B5A4A]">
           I NÄRHETEN:
         </h2>
 
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 gap-5 min-[420px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {restaurants.map((restaurant) => (
             <ActivityCard
               key={restaurant.id}
