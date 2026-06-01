@@ -7,7 +7,6 @@ export type RestaurantLocation = {
   address: string;
   lat: number;
   lng: number;
-  menuPath: string;
 };
 
 export const restaurants: RestaurantLocation[] = [
@@ -20,7 +19,6 @@ export const restaurants: RestaurantLocation[] = [
     address: "Gränden 1, Lund",
     lat: 55.71837,
     lng: 13.22038,
-    menuPath: "/api/menu/nordrest",
   },
   {
     id: "edison",
@@ -31,7 +29,6 @@ export const restaurants: RestaurantLocation[] = [
     address: "Emdalavägen 6B, 223 69 Lund",
     lat: 55.717581383429156,
     lng: 13.218044103639794,
-    menuPath: "/api/menu/edison",
   },
   {
     id: "bryggan",
@@ -42,7 +39,6 @@ export const restaurants: RestaurantLocation[] = [
     address: "Lund",
     lat: 55.71523994775372,
     lng: 13.212575381821518,
-    menuPath: "/api/menu/bryggan",
   },
   {
     id: "laziza",
@@ -53,7 +49,6 @@ export const restaurants: RestaurantLocation[] = [
     address: "Lund",
     lat: 55.712859214920094,
     lng: 13.21437442195504,
-    menuPath: "/api/menu/laziza",
   },
   {
     id: "smaka-pa-kina",
@@ -64,7 +59,6 @@ export const restaurants: RestaurantLocation[] = [
     address: "Lund",
     lat: 55.71495637598995,
     lng: 13.21636900746364,
-    menuPath: "/api/menu/smaka-pa-kina",
   },
   {
     id: "inspira",
@@ -75,7 +69,6 @@ export const restaurants: RestaurantLocation[] = [
     address: "Lund",
     lat: 55.71104358420009,
     lng: 13.21918989975964,
-    menuPath: "/api/menu/inspira",
   },
   {
     id: "salads-and-smoothies",
@@ -86,7 +79,6 @@ export const restaurants: RestaurantLocation[] = [
     address: "Lund",
     lat: 55.714961983188765,
     lng: 13.215150554944834,
-    menuPath: "/api/menu/salads-and-smoothies",
   },
   {
     id: "bricks-eatery",
@@ -97,7 +89,6 @@ export const restaurants: RestaurantLocation[] = [
     address: "Lund",
     lat: 55.71649857010047,
     lng: 13.227733780855804,
-    menuPath: "/api/menu/bricks-eatery",
   },
   {
     id: "sony-eatery",
@@ -108,12 +99,10 @@ export const restaurants: RestaurantLocation[] = [
     address: "Mobilvägen 10, Lund",
     lat: 55.71828514845217,
     lng: 13.22698303658439,
-    menuPath: "/api/menu/sony-eatery",
   },
 ];
 
 export function getRestaurantById(id?: string) {
   if (!id) return undefined;
-
   return restaurants.find((restaurant) => restaurant.id === id);
 }

@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import ActivityCard from "../components/ActivityCard";
+import RestaurantCard from "../components/RestaurantCard";
 import MapButton from "../components/MapButton";
 import TodayMenuList from "../components/TodayMenuList";
 import { restaurants } from "../data/restaurants";
@@ -20,13 +20,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 gap-5 min-[420px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {restaurants.map((restaurant) => (
-            <ActivityCard
-              key={restaurant.id}
-              id={restaurant.id}
-              title={restaurant.name}
-              schedule={restaurant.schedule}
-              image={restaurant.image}
-            />
+            <RestaurantCard key={restaurant.id} restaurant={restaurant} />
           ))}
         </div>
       </main>
