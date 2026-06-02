@@ -249,7 +249,6 @@ public class MenuServiceTests
         };
 
         return new MenuService(
-            config,
             environment,
             NullLogger<MenuService>.Instance);
     }

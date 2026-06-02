@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getMenu } from "../services/menuService";
 import Header from "../components/Header";
 import { getRestaurantById } from "../data/restaurants";
 import type { RestaurantLocation } from "../data/restaurants";
@@ -19,12 +20,10 @@ function MenuItemCard({ item }: { item: DishDto }) {
         <p className="text-xs font-bold uppercase tracking-wide text-[#61B3AA]">
           {item.category}
         </p>
-
         <p className="mt-1 text-sm font-bold leading-snug text-[#0B5A4A]">
           {item.dish}
         </p>
       </div>
-
       {item.price && (
         <p className="shrink-0 text-sm font-extrabold text-[#0B5A4A]">
           {item.price}
@@ -48,16 +47,12 @@ function StatusScreen({
   return (
     <div className="min-h-screen bg-[#F1FFF5]">
       <Header />
-
       <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center gap-4 px-5 text-center">
         <p
-          className={`font-bold text-[#0B5A4A] ${
-            loading ? "animate-pulse" : ""
-          }`}
+          className={`font-bold text-[#0B5A4A] ${loading ? "animate-pulse" : ""}`}
         >
           {message}
         </p>
-
         {buttonText && onClick && (
           <button
             type="button"
@@ -78,9 +73,7 @@ export default function RestaurantMenu() {
 
   const selectedRestaurant = useMemo(() => getRestaurantById(id), [id]);
 
-  const [viewState, setViewState] = useState<ViewState>({
-    status: "loading",
-  });
+  const [viewState, setViewState] = useState<ViewState>({ status: "loading" });
 
   useEffect(() => {
     async function loadMenu() {
@@ -94,15 +87,7 @@ export default function RestaurantMenu() {
 
       try {
         setViewState({ status: "loading" });
-
-        const response = await fetch(selectedRestaurant.menuPath);
-
-        if (!response.ok) {
-          throw new Error(`Failed to load menu. Status: ${response.status}`);
-        }
-
-        const menu: MenuDto = await response.json();
-
+        const menu = await getMenu(id);
         setViewState({
           status: "success",
           menu,
@@ -110,11 +95,7 @@ export default function RestaurantMenu() {
         });
       } catch (error) {
         console.error(error);
-
-        setViewState({
-          status: "error",
-          message: "Kunde inte ladda menyn.",
-        });
+        setViewState({ status: "error", message: "Kunde inte ladda menyn." });
       }
     }
 
@@ -141,7 +122,6 @@ export default function RestaurantMenu() {
   return (
     <div className="min-h-screen bg-[#F1FFF5]">
       <Header />
-
       <main className="w-full px-4 pb-8 pt-6">
         <button
           type="button"
@@ -157,14 +137,11 @@ export default function RestaurantMenu() {
             alt={restaurant.name}
             className="h-full w-full object-cover"
           />
-
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
           <div className="absolute bottom-4 left-4 text-white">
             <h1 className="text-2xl font-extrabold italic">
               {restaurant.name}
             </h1>
-
             <p className="text-xs font-semibold opacity-80">
               {restaurant.schedule}
             </p>
@@ -189,15 +166,12 @@ export default function RestaurantMenu() {
           <div className="flex flex-col gap-6">
             {DAYS.map((day) => {
               const dishes = menu.days?.[day];
-
               if (!dishes?.length) return null;
-
               return (
                 <section key={day}>
                   <h3 className="mb-2 text-sm font-extrabold uppercase tracking-wide text-[#61B3AA]">
                     {day}
                   </h3>
-
                   <div className="flex flex-col gap-2">
                     {dishes.map((item, index) => (
                       <MenuItemCard key={`${day}-${index}`} item={item} />
