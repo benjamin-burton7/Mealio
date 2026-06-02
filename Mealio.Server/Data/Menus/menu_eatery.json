@@ -1,0 +1,75 @@
+{
+  "week": "V23",
+  "days": {
+    "Måndag": [
+      {
+        "category": "",
+        "dish": "Stekt oxbringa med rostade morötter, senap & dragonsås, potatismos"
+      },
+      {
+        "category": "",
+        "dish": "Bakad sej med vitvinssås, ägg, dill, räkor, kokt nypotatis med smör & örter, fänkålssallad"
+      },
+      {
+        "category": "",
+        "dish": "Vårrullar med soja-chilidipp , bönsallad med lime, chili & koriander"
+      }
+    ],
+    "Tisdag": [
+      {
+        "category": "",
+        "dish": "Polpette italienska köttbullar i tomatsky med basilika, citron & smashed potatis"
+      },
+      {
+        "category": "",
+        "dish": "Fiskgryta med musslor, fänkål, tomat-saffransmajo, kokt nypotatis"
+      },
+      {
+        "category": "",
+        "dish": "Pasta alfredo med svamp , spenat, bakad tomat & örtcrunch"
+      }
+    ],
+    "Onsdag": [
+      {
+        "category": "",
+        "dish": "Nattbakad fläskkarré med pepparsås, bakad purjolök, stekt potatis med fänkål & dragon"
+      },
+      {
+        "category": "",
+        "dish": "Gremolata bakad kummel, potatisstomp med creme fraiche, gräslök, grön aioli & hyvlad morot"
+      },
+      {
+        "category": "",
+        "dish": "Halloumiburgare med avokadokräm, picklad rödlök & rostad klyftpotatis"
+      }
+    ],
+    "Torsdag": [
+      {
+        "category": "",
+        "dish": "Friterad kyckling med ranchdressing, rostad klyftpotatis, sallad på fänkål, morot, ramslök & äpple"
+      },
+      {
+        "category": "",
+        "dish": "Curry-& kokos bakad sej med pumpa, fänkål, mynta, gurkraita & basmatiris"
+      },
+      {
+        "category": "",
+        "dish": "Kikärtsgryta med vegansk chorizokorv, rotfrukts cous cous & myntayoghurt"
+      }
+    ],
+    "Fredag": [
+      {
+        "category": "",
+        "dish": "Mixed “grill” med chorizokorv, pluma & cevapi, tzatziki, rostad klyftpotatis, chilibakad majs"
+      },
+      {
+        "category": "",
+        "dish": "Vittvinspocherad kungsfisk med gräslöksås, potatismos & fänkålsbakade buntmorötter"
+      },
+      {
+        "category": "",
+        "dish": "Tortelloni med ricotta-& spenat, krämig pestosås, rostad paprika, ruccola & tomat"
+      }
+    ]
+  }
+}

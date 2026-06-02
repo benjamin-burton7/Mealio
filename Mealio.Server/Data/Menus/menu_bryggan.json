@@ -1,64 +1,64 @@
 {
-  "week": "V22",
+  "week": "V23",
   "days": {
     "Måndag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Panerad kummelfilé, med kokt potatis, remouladesås, citron, ärtor & vaxbönor"
+        "dish": "Timjanstekt kycklingbröst, med bacon, lök och svampsky, kokt potatis, persilja och picklad morot"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Selleriplätt, med potatisstomp, jordärtsskockscréme, picklad rödlök och persilja"
+        "dish": "Bönbollar, med chilibakad kål, bulgursallad, smulad fårost och morotsraita"
       }
     ],
     "Tisdag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Pulled pork, med barbequesås, rostad potatis, chilimarinerade bönor och riven cheddar"
+        "dish": "Bräserad fläsksida, med kokt ris, ingefärasyrad kål-morotssallad & teriyakibuljong"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Hot pot på linser & jackfruit, med citronpickles, basmatiris, vitlöksyoghurt & pumpafrön"
+        "dish": "Aubergine-tomatgryta, med stora vita bönor, ostbakad polenta, citronyoghurt, rucola & rostade frön"
       }
     ],
     "Onsdag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Kycklinggryta, med tomat, salsiccia, vitt vin, salvia, citronyoghurt, rucola och kokt ris"
+        "dish": "Kalvfärslimpa, med cidervelouté, rostad purjolök, äpple, spenat och kokt potatis"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Pasta, med soltorkad tomat, oliver, spenat, rostad mandel och smulad fetaost"
+        "dish": "Kryddbakad rotselleri, med krispig myntagurka, salladslök, hummus, quinoa & rostad mandel"
       }
     ],
     "Torsdag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Helstekt fläskfilé, med potatisgratäng, rostade rotfrukter & portersky"
+        "dish": "Tempurabakad kolja, med skarpsås, råhyvlad blomkål i dillolja & kokt potatis"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Getostpolenta, med rostade rödbetor, rucolacréme, valnötter & fänkålssallad"
+        "dish": "Rotfruktsplätt, med bakad blomkål, brynt sojasmör, rostade hasselnötter och marinerade champinjoner"
       }
     ],
     "Fredag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Wallenbergare, med gröna ärtor, skirat smör, rårörda lingon, potatispuré & persilja"
+        "dish": "Rosmarinbakad fläskkarré, med fefferoni, rostad potatis, tzatziki & tomatsky"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "119:-",
-        "dish": "Gratinerade champinjoncrêpes, med bakad spetskål, picklade rotfrukter, spenat och persiljemayo"
+        "dish": "Örtbakad spetskål, med quinoa, avocadocréme, rostad majs, vårlök, ingefäramorot & quesadilla"
       }
     ]
   }

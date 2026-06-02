@@ -1,94 +1,94 @@
 {
-  "week": "V22",
+  "week": "V23",
   "days": {
     "Måndag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Krispig saltade kyckling"
+        "dish": "General Tsos kyckling"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Peking fläskstrimlor"
+        "dish": "Fläsk med grönabönor"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Yuxiang aubergine"
+        "dish": "Snabbstekt blomkål"
       }
     ],
     "Tisdag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Gongbao kyckling"
+        "dish": "Biff med tomat och ägg"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Sötsur kamben"
+        "dish": "Kryddig grillad kycklingvingar"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Kinakål med glasnudlar och vitlök sås"
+        "dish": "Snabbstekt spetskål"
       }
     ],
     "Onsdag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Dongpo sidfläsk"
+        "dish": "Rött bräserat sidfläsk"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Yuxiang kyckling"
+        "dish": "Wokade kyckling med chili"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Bakad pumpa med saltad ankäggula"
+        "dish": "Potatis med inlagd chili"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Spenat med tofu"
+        "dish": "Snabbstekt zucchini"
       }
     ],
     "Torsdag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Bondes stekt fläsk"
+        "dish": "Ångkokt fläsk med senapskål"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Ångkokt fisk"
+        "dish": "Spicy pot mix"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Snabbstekt pak choi med shitake"
+        "dish": "Homestyle tofu"
       }
     ],
     "Fredag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Chili kyckling"
+        "dish": "Sötsur fläsk med anannas"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Biff med ostronsås, gul lök och paprika"
+        "dish": "Bräserad kyckling med taro"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "110:-",
-        "dish": "Snabbstekt champinjon"
+        "dish": "Selleri med cashewnötter och liljalök"
       }
     ]
   }
