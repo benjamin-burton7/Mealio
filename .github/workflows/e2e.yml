@@ -1,0 +1,60 @@
+name: E2E Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start services with Docker Compose
+        run: docker compose up -d --build
+
+      - name: Wait for frontend to be ready
+        run: |
+          for i in {1..60}; do
+            if curl --silent --fail http://localhost:5173/; then
+              echo "frontend ready"; break
+            fi
+            sleep 1
+          done
+
+      - name: Wait for backend to be ready
+        run: |
+          for i in {1..60}; do
+            if curl --silent --fail http://localhost:5000/; then
+              echo "backend ready"; break
+            fi
+            sleep 1
+          done
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install client dependencies
+        run: |
+          cd mealio.client
+          npm ci
+
+      - name: Install Playwright browsers
+        run: |
+          cd mealio.client
+          npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        env:
+          CI: 'false'
+        run: |
+          cd mealio.client
+          npx playwright test --reporter=github
+
+      - name: Tear down services
+        if: always()
+        run: docker compose down -v
