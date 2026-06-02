@@ -10,6 +10,14 @@ from urllib.parse import urlparse
 from pypdf import PdfReader
 
 
+SESSION = requests.Session()
+SESSION.headers.update(
+    {
+        "User-Agent": "Mozilla/5.0 (compatible; MenuBot/1.0)",
+    }
+)
+
+
 def _current_week() -> str:
     return f"V{date.today().isocalendar()[1]}"
 
@@ -36,6 +44,17 @@ INSPIRA_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+IGNORED_MATOCHMAT_ITEM_NAMES = {
+    "student",
+    "lunchstängt",
+    "lunch stängt",
+}
+
+IGNORED_MATOCHMAT_DESCRIPTIONS = {
+    "lördag",
+    "söndag",
+}
+
 
 def empty_menu(week: str = "?") -> dict:
     return {
@@ -45,15 +64,13 @@ def empty_menu(week: str = "?") -> dict:
 
 
 def _fetch(url: str) -> BeautifulSoup:
-    headers = {"User-Agent": "Mozilla/5.0 (compatible; MenuBot/1.0)"}
-    resp = requests.get(url, headers=headers, timeout=10)
+    resp = SESSION.get(url, timeout=10)
     resp.raise_for_status()
     return BeautifulSoup(resp.text, "html.parser")
 
 
 def _fetch_pdf_text(url: str) -> str:
-    headers = {"User-Agent": "Mozilla/5.0 (compatible; MenuBot/1.0)"}
-    resp = requests.get(url, headers=headers, timeout=20)
+    resp = SESSION.get(url, timeout=20)
     resp.raise_for_status()
 
     reader = PdfReader(BytesIO(resp.content))
@@ -73,7 +90,6 @@ def _find_pdf_link_from_page(url: str, preferred_text: str = "Lunchmeny") -> str
     soup = _fetch(url)
     links = soup.find_all("a", href=True)
 
-    # First try: find the menu button/link by visible text.
     for link in links:
         text = link.get_text(" ", strip=True)
         href = link["href"]
@@ -81,7 +97,6 @@ def _find_pdf_link_from_page(url: str, preferred_text: str = "Lunchmeny") -> str
         if preferred_text.lower() in text.lower() and ".pdf" in href.lower():
             return requests.compat.urljoin(url, href)
 
-    # Second try: Eatery may use English text.
     for link in links:
         text = link.get_text(" ", strip=True)
         href = link["href"]
@@ -89,7 +104,6 @@ def _find_pdf_link_from_page(url: str, preferred_text: str = "Lunchmeny") -> str
         if "lunch menu" in text.lower() and ".pdf" in href.lower():
             return requests.compat.urljoin(url, href)
 
-    # Fallback: use the first PDF link on the page.
     for link in links:
         href = link["href"]
 
@@ -338,7 +352,7 @@ def scrape_nordrest_menu(url: str) -> dict:
 
         menu["days"][current_day].append(
             {
-                "category": "Lunch",
+                "category": "",
                 "price": price,
                 "dish": dish,
             }
@@ -538,7 +552,7 @@ def scrape_smakapakina_menu(url: str) -> dict:
             if dish and len(dish) > 2:
                 items.append(
                     {
-                        "category": "Lunch",
+                        "category": "",
                         "price": price,
                         "dish": dish,
                     }
@@ -610,12 +624,25 @@ def scrape_matochmat_menu(url: str) -> dict:
             name = re.sub(r"\s+", " ", m.group(1)).strip()
             desc = re.sub(r"\s+", " ", m.group(3)).strip()
             price = f"{m.group(2)}:-"
+
+            normalized_name = name.lower()
+            normalized_desc = desc.lower()
+
+            if normalized_name in IGNORED_MATOCHMAT_ITEM_NAMES:
+                continue
+
+            if normalized_desc in IGNORED_MATOCHMAT_DESCRIPTIONS:
+                continue
+
+            if _is_day(name) or _is_day(desc):
+                continue
+
             full_dish = f"{name}, {desc}" if desc else name
 
             if name and len(name) > 3:
                 items.append(
                     {
-                        "category": "Lunch",
+                        "category": "",
                         "price": price,
                         "dish": full_dish,
                     }
@@ -661,8 +688,6 @@ def scrape_eatery_pdf_menu(url: str) -> dict:
     parsed = urlparse(url)
     path = parsed.path.lower()
 
-    # If the user gives the webpage instead of the PDF,
-    # find the current Lunchmeny PDF link automatically.
     if not path.endswith(".pdf") and "thatsup.website" not in parsed.netloc.lower():
         url = _find_pdf_link_from_page(url, preferred_text="Lunchmeny")
 
@@ -715,15 +740,12 @@ def scrape_eatery_pdf_menu(url: str) -> dict:
         if not previous_line or not current_line:
             return False
 
-        # PDF line breaks often split one dish after a comma.
         if previous_line.endswith(","):
             return True
 
-        # Continuation lines often start lowercase.
         if current_line[0].islower():
             return True
 
-        # Short ingredient-only line, such as "groddar & jordnötter".
         if len(current_line) < 35 and " & " in current_line:
             return True
 
@@ -769,7 +791,7 @@ def scrape_eatery_pdf_menu(url: str) -> dict:
 
             items.append(
                 {
-                    "category": "Lunch",
+                    "category": "",
                     "dish": line,
                 }
             )
@@ -784,17 +806,14 @@ def _detect_scraper(url: str):
     domain = parsed.netloc.lower()
     path = parsed.path.lower()
 
-    if path.endswith(".pdf") or "thatsup.website" in domain or "eatery" in domain:
-        return scrape_eatery_pdf_menu
-
-    if "nordrest.se" in domain:
-        return scrape_nordrest_menu
+    if "brickseatery.se" in domain:
+        return scrape_line_based_category_menu
 
     if "restaurangedison.se" in domain:
         return scrape_line_based_category_menu
 
-    if "brickseatery.se" in domain:
-        return scrape_line_based_category_menu
+    if "nordrest.se" in domain:
+        return scrape_nordrest_menu
 
     if "laziza.se" in domain:
         return scrape_laziza_menu
@@ -811,7 +830,11 @@ def _detect_scraper(url: str):
     if "matochmat.se" in domain:
         return scrape_matochmat_menu
 
+    if path.endswith(".pdf") or "thatsup.website" in domain or "eatery.se" in domain:
+        return scrape_eatery_pdf_menu
+
     return scrape_intendit_menu
+
 
 def _get_solution_root() -> Path:
     current_dir = Path(__file__).resolve().parent
@@ -820,6 +843,25 @@ def _get_solution_root() -> Path:
         return current_dir.parent
 
     return current_dir
+
+
+def normalize_file_name(name: str) -> str:
+    return re.sub(r"[^a-zA-Z0-9_-]", "_", name.strip())
+
+
+def save_menu_json(name: str, data: dict) -> Path:
+    solution_root = _get_solution_root()
+    output_dir = solution_root / "Mealio.Server" / "Data" / "Menus"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    safe_name = normalize_file_name(name)
+    out = output_dir / f"menu_{safe_name}.json"
+
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    return out
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
@@ -838,13 +880,6 @@ if __name__ == "__main__":
         print(f"Error scraping menu: {e}")
         sys.exit(1)
 
-    solution_root = _get_solution_root()
-    output_dir = solution_root / "Mealio.Server" / "Data" / "Menus"
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    out = output_dir / f"menu_{name}.json"
-
-    with open(out, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    out = save_menu_json(name, data)
 
     print(f"Saved {out}")

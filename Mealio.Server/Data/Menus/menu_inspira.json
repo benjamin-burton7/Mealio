@@ -1,94 +1,74 @@
 {
-  "week": "vecka 22",
+  "week": "vecka 23",
   "days": {
     "Måndag": [
       {
         "category": "Green",
-        "dish": "Bönchili, ris | nachos | gräddfil & jalapeños"
+        "dish": "Lobia Masala, basmatiris & kryddbakad blomkål"
       },
       {
         "category": "Local",
-        "dish": "Kalkonlårfilé & bakad spetskål, rostad potatis | äpple & rabarberchutney"
+        "dish": "Färsbiff & Tzatziki, rostad potatis | tomat & olivsallad"
       },
       {
         "category": "Asia",
-        "dish": "Buldak fire chicken, jasminris & Kimchi"
-      },
-      {
-        "category": "World",
-        "dish": "Pasulj (korv & böngryta från Balkan), fetaost | feferoni & rostad potatis"
+        "dish": "Pad thai, risnudlar | kyckling | ägg | jordnötter & lime"
       }
     ],
     "Tisdag": [
       {
         "category": "Green",
-        "dish": "Pasta Pesto, kronärtskocka | mozzarella & bönor"
+        "dish": "Rostad potatissallad, pepparrotsdressing & fetaost"
       },
       {
         "category": "Local",
-        "dish": "Fiskgryta, räkor | fänkål | dill | färskpotatis & saffransaioli"
+        "dish": "Stekt Makrill, spenatsås | färskpotatis & citron"
       },
       {
         "category": "Asia",
-        "dish": "Buldak fire chicken, jasminris & Kimchi"
-      },
-      {
-        "category": "World",
-        "dish": "kryddbakad karré, chimichurri | quinoa & sötpotatis"
+        "dish": "Laab (fläskfärs), lime | chili | fisksås | jasminris & picklad morot"
       }
     ],
     "Onsdag": [
       {
         "category": "Green",
-        "dish": "Majsfritters, klyftpotatis | coleslaw & barbecue sås"
+        "dish": "Paj med västerbottenost & sparris, quinoasallad & ramslöksyoghurt"
       },
       {
         "category": "Local",
-        "dish": "Wallenbergare, mos | ärtor | lingon & brynt smör"
+        "dish": "Biff Stroganoff, ris | saltgurka & smetana"
       },
       {
         "category": "Asia",
-        "dish": "Tom yum, scampi | sojabönor | jasminris & lime"
-      },
-      {
-        "category": "World",
-        "dish": "kryddbakad karré, chimichurri | quinoa & sötpotatis"
+        "dish": "Laab (fläskfärs),, lime | chili | fisksås | jasminris & picklad morot"
       }
     ],
     "Torsdag": [
       {
         "category": "Green",
-        "dish": "Lo Mein nudlar, marinerad tofu & Pak Choi"
+        "dish": "Aloo tikki (indisk potatisbulle), chaatsallad & yoghurt"
       },
       {
         "category": "Local",
-        "dish": "Grillad Pluma, rostad potatis | chilibea & färska bönor"
-      },
-      {
-        "category": "Asia",
-        "dish": "Tom yum, scampi | sojabönor | jasminris & lime"
+        "dish": "Rostad kyckling, libbstickasky | potatisstomp & blomkål"
       },
       {
         "category": "World",
-        "dish": "Saltimbocca på kyckling, örtrostad potatis | salviasky & bakad tomat"
+        "dish": "Nattbakad fläsksida, barbecue | coleslaw & rostad potatis"
       }
     ],
     "Fredag": [
       {
         "category": "Green",
-        "dish": "Malai kofta (Indien), basmatiris & naan"
+        "dish": "Vietnamesisk risnudelsallad, Nouc chamsås | sockerärtor & tofu"
       },
       {
         "category": "Local",
-        "dish": "Lasagne, ruccola & lagrad ost"
-      },
-      {
-        "category": "Asia",
-        "dish": "Pad thai, risnudlar | kyckling | ägg | jordnötter & lime"
+        "dish": "Hamburgare, karamelliserad lök | cheddar | romansallad & pommes"
       },
       {
         "category": "World",
-        "dish": "Saltimbocca på kyckling, örtrostad potatis | salviasky & bakad tomat"
+        "dish": "Nattbakad fläsksida, barbecue | coleslaw & rostad potatis"
       }
     ]
   }

@@ -17,3 +17,4 @@ public class MenuController(IMenuService menuService) : ControllerBase
 
         return Ok(menu);
     }
+}
