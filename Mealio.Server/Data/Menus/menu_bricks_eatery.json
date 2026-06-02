@@ -1,94 +1,94 @@
 {
-  "week": "V22",
+  "week": "V23",
   "days": {
     "Måndag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Vegetarisk pasta bolognese med bakad tomat, tryffelkräm, lagrad ost och ruccola"
+        "dish": "Pasta/gnocchigratäng med bechamelsås, tomatsallad, lagrad ost och ruccola"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Gräddstuvad pytt i panna med stekt ägg, rödbeta, picklad lök, senapsfrön och persilja"
+        "dish": "Köttfärslimpa med grönpepparsås, brynt kål, champinjoner, lingon och kruspersilja"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Röd thaicurry med kyckling, grönsaker, ris, limeblad, chili och rostad kokos"
+        "dish": "Kung pao chicken- kyckling med ris, sichuanpeppar, lök, paprika, ingefära, jordnötter och chili"
       }
     ],
     "Tisdag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Stekt ris med chilirostad tzay protein, grönsaker, äggrulle, jordnötter och vårlök"
+        "dish": "Chana masala- indisk kikärtscurry med ris, naanbröd, yoghurt och chilibakad tomat"
       },
       {
-        "category": "Local",
+        "category": "World Wide",
         "price": "115:-",
-        "dish": "Pannbiff med dragonsås, potatisstomp, morot, gröna ärtor, ramslök och äpple"
+        "dish": "Friterad kyckling med jordnötssås, chilirostad morot, picklad ingefära, ris och böngroddar"
       },
       {
         "category": "Pizza",
         "price": "115:-",
-        "dish": "Mozzarella, tomatsås, lufttorkad skinka, champinjoner och basilika"
+        "dish": "Mozzarella, tomatsås, salami spianata och basilika"
       }
     ],
     "Onsdag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Gnocchigratäng med mozzarella, basilika, tomat, chili och vitlök"
-      },
-      {
-        "category": "World Wide",
-        "price": "115:-",
-        "dish": "Wokat fläsk med bambu, ris, chili, böngroddar, ostronsås och jordnötter"
+        "dish": "Tariks falafel med bulgursallad, vattenmelon, krämig ost, chilimajonnäs och granatäpple"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Stekt sej med romsås, potatis, zucchini, gurka, morot och dill"
+        "dish": "Lammfärsbiff med tzatziki, klyftpotatis, tomatsallad och marinerade oliver"
+      },
+      {
+        "category": "World Wide",
+        "price": "115:-",
+        "dish": "Bibimbap på blandat kött med ris, stekt ägg, ostronsås, kimchi, pickles och sesam"
       },
       {
         "category": "Pizza",
         "price": "115:-",
-        "dish": "Mozzarella, tomatsås, lufttorkad skinka, champinjoner och basilika"
+        "dish": "Mozzarella, tomatsås, salami spianata och basilika"
       }
     ],
     "Torsdag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Vegetarisk enchiladas med salsa, nachos, koriander och jalapenomajonnäs"
+        "dish": "Okonomiyaki- japansk kål pannkaka med coleslaw, bbq-sås, champinjoner, picklad rödkål och koriander"
       },
       {
-        "category": "World Wide",
+        "category": "Local",
         "price": "115:-",
-        "dish": "Indisk curry med kyckling, brynt paprika, spenat, kokosmjölk, papadums och limeyoghurt"
+        "dish": "Crispy pork belly “five spice” med ris, gurksallad, ingefära, vårlök, thaichili och soja"
       },
       {
         "category": "Pizza",
         "price": "115:-",
-        "dish": "Mozzarella, tomatsås, lufttorkad skinka, champinjoner och basilika"
+        "dish": "Mozzarella, tomatsås, salami spianata och basilika"
       }
     ],
     "Fredag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Marinerad tofu med glasnudlar, grönsaker, sesamdressing, pickles, hoisinsås och chili"
+        "dish": "Ugnspannkaka med bakad vitkål, lingon, keso, mandel, krasse och äpple"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Schnitzel med rostad potatis, kryddsmör, kaprissky, ärtor, gröna bönor och citron"
+        "dish": "Friterad spätta med tartarsås, potatis, dill, ärtor, rädisa och citron"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Biffsallad med glasnudlar, grönsaker, sesamdressing, pickles, hoisinsås och chili"
+        "dish": "Pasta med baconsås, grädde, citron, gräslök och svartpeppar"
       }
     ]
   }

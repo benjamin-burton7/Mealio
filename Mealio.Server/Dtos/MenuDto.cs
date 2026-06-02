@@ -20,7 +20,7 @@ public class MenuDto
 public class DishDto
 {
     [JsonPropertyName("category")]
-    public string Category { get; set; } = string.Empty;
+    public string? Category { get; set; }
 
     [JsonPropertyName("price")]
     public string? Price { get; set; }

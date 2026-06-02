@@ -1,119 +1,89 @@
 {
-  "week": "V22",
+  "week": "V23",
   "days": {
     "Måndag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Falafel - potato wedges, mixed salad, spicy tomato sauce, garlic yoghurt sauce"
+        "dish": "Plant based balls with mashed potatoes - cream sauce, lingon berries and pickled cucumber"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Breaded fried cod - mixed beans, crushed potatoes, herb mayo, lemon"
+        "dish": "Breaded plaice - green peas, cold dill sauce, boiled potatoes"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Kebab seasoned chicken - potato wedges, mixed salad, spicy tomato sauce, garlic yoghurt sauce"
-      },
-      {
-        "category": "Lunch",
-        "price": "105:-",
-        "dish": "Plant based balls with mashed potatoes - cream sauce, lingon berries and pickled cucumber Breaded plaice green peas, cold dill sauce, boiled potatoes Meatballs mashed potatoes, cream sauce, lingonberries, pickled cucumbers"
+        "dish": "Meatballs - mashed potatoes, cream sauce, lingonberries, pickled cucumbers"
       }
     ],
     "Tisdag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Vodka pasta with burrata and basil"
+        "dish": "Halloumi with greek salad pita bread, roasted potatoes and Tzatziki"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Tapenade baked redfish - creamy potato gnocchi, roasted bell peppers- and zucchini, basil oil"
+        "dish": "Fillet of plaice - potatoes with pesto rosso, roasted vegetables, basil cream, rocket salad"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Chorizo sausage - creamed corn, roasted sweet potatoes, chimi churri, pickled onoins, truffle mayo"
-      },
-      {
-        "category": "Lunch",
-        "price": "105:-",
-        "dish": "Teriyaki glazed soy chunks - creamy cucumber salad, garlic roasted broccoli, sesame seeds, jasmine rice Fillet of plaice potatoes with pesto rosso, roasted vegetables, basil cream, rocket salad Teriyaki glazed chicken creamy cucumber salad, garlic roasted broccoli, sesame seeds, jasmine rice"
+        "dish": "Souvlaki seasoned pork with greek salad - pita bread, roasted potatoes and Tzatziki"
       }
     ],
     "Onsdag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Idag - Kimchi pancakes fried tofu, soy pickled vegetables, sesame- and garlic sauce"
+        "dish": "Creamy soy chunks casserole with herbs and lemon - spring vegetables and roasted asparagus potatoes"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Creamy fish and shellfish casserole with saffron - tomato, boiled potatoes and aioli"
+        "dish": "Fish and chips - mushy peas, malt vinegar, tartar sauce, lemon"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Korean beef patties - cabbage salad, gochujang mayo, sesame, coriander, jasmine rice"
-      },
-      {
-        "category": "Lunch",
-        "price": "105:-",
-        "dish": "Korean Bbq soy chunks - kimchi, sesame marinated cucumber, jasmine rice, gochujang sauce Fish and chips mushy peas, malt vinegar, tartar sauce, lemon Korean Bbq pork kimchi, sesame marinated cucumber, jasmine rice, gochujang sauce"
+        "dish": "Creamy chicken casserole with herbs and lemon - spring vegetables and roasted apsaragus potatoes"
       }
     ],
     "Torsdag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Halloumi - warm salad of swedish new potatoes and spring vegetables, roasted walnuts, basil dressing"
+        "dish": "Teriyaki glazed soy chunks - creamy cucumber salad, garlic roasted broccoli, sesame seeds, jasmine rice"
       },
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Breaded plaice - boiled potatoes, green peas, shrimp salad \"Skagen\""
+        "dish": "Teriyaki glazed chicken - creamy cucumber salad, garlic roasted broccoli, sesame seeds, jasmine rice"
       },
       {
-        "category": "Lunch",
-        "price": "125:-",
-        "dish": "Pulled pork in burger bread - coleslaw, pickled onions, roasted potatoes, Bbq sauce"
-      },
-      {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Kung Pao tofu - with sichuan pepper and ginger, rice and cashew nuts Fish stew with coconut milk green curry, mixed vegetables, jasmin rice Kung Pao chicken with sichuan pepper and ginger rice and cashewnuts"
+        "dish": "Fish stew with coconut milk - green curry, mixed vegetables, jasmin rice"
       }
     ],
     "Fredag": [
       {
-        "category": "Lunch",
+        "category": "",
         "price": "105:-",
-        "dish": "Vegetarian \"Bibimbap\" rice - soy mince, korean marinated vegetables, gochujang sauce, fried egg"
+        "dish": "Soy patty - garlic fried mushrooms and beans, roasted potatoes and beans, creamy pepper sauce"
       },
       {
-        "category": "Lunch",
-        "price": "105:-",
-        "dish": "Fish cakes - glass noodle salad with red curry dressing, sesame mayo"
-      },
-      {
-        "category": "Lunch",
-        "price": "105:-",
-        "dish": "Chicken Bibimbap; Rice - chicken mince, korean marinated vegetables, gochujang sauce, fried egg"
-      },
-      {
-        "category": "Lunch",
+        "category": "",
         "price": "125:-",
-        "dish": "Beef burger with brioche bread - truffle mayo, pickled onions, french fries"
+        "dish": "Salmon - swedish new potatoes, sugar snaps, cold dill- and roe sauce, lemon"
       },
       {
-        "category": "Lunch",
-        "price": "125:-",
-        "dish": "Soy patty - garlic fried mushrooms and beans, roasted potatoes and beans, creamy pepper sauce Salmon swedish new potatoes, sugar snaps, cold dill- and roe sauce, lemon Fillet of pork garlic fried mushrooms and beans, roasted potatoes, creamy pepper sauce"
+        "category": "",
+        "price": "105:-",
+        "dish": "Fillet of pork - garlic fried mushrooms and beans, roasted potatoes, creamy pepper sauce"
       }
     ]
   }

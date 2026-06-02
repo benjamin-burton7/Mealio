@@ -17,13 +17,17 @@ function MenuItemCard({ item }: { item: DishDto }) {
   return (
     <article className="flex w-full items-start justify-between gap-4 rounded-xl bg-white px-4 py-3 shadow-sm">
       <div className="min-w-0">
-        <p className="text-xs font-bold uppercase tracking-wide text-[#61B3AA]">
-          {item.category}
-        </p>
+        {item.category && (
+          <p className="text-xs font-bold uppercase tracking-wide text-[#61B3AA]">
+            {item.category}
+          </p>
+        )}
+
         <p className="mt-1 text-sm font-bold leading-snug text-[#0B5A4A]">
           {item.dish}
         </p>
       </div>
+
       {item.price && (
         <p className="shrink-0 text-sm font-extrabold text-[#0B5A4A]">
           {item.price}

@@ -1,89 +1,89 @@
 {
-  "week": "Vecka 22",
+  "week": "Vecka 23",
   "days": {
     "Måndag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Pasta med citronsås, chilirostad zucchini, lagrad ost & fröer"
+        "dish": "Tortellini med stekt svamp, rostad kål & tryffelcreme"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Bräserad fläskbog med persiljestomp, svampsås & syltade vinbär"
+        "dish": "Pannbiff med färskpotatis, sommarkål & ramslökscreme"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Chicken Korma med basmatiris, mandel, rostad blomkål & koriander"
+        "dish": "Poulet Au Vin med smålök, potatispuré & rökt fläsk"
       }
     ],
     "Tisdag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Rödbetsbiff med getostcreme, honungsbakade betor & kokt potatis"
+        "dish": "Grön burgare med brioche, cheddarcreme, picklad lök & salladsblad"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Grillad karré med bakade rotfrukter, spenat & pepparsky"
+        "dish": "Lasagne med örtcreme, lagrad ost & vårgrönt"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Chiligryta på oxe med svarta bönor, picklad rödlök, ris & syrad grädde"
+        "dish": "Sesampanerad fishcake med lime, glasnudlar, sesamdressing & thaibasilika"
       }
     ],
     "Onsdag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Gul Currygryta med kål & tofu serveras med ris & ananas"
+        "dish": "Majsfritters med zucchinisallad, ris & avokadocreme"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Biff Lindström med kryddsmör, rödvinssky & timjansrostad potatis"
+        "dish": "Edisons pytt med picklade betor, ägg 64, ketchup & persilja"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Fishtaco med tortillabröd, mangochutney, chilimajo & potatisklyftor"
+        "dish": "Grillat högrev med rostad sötpotatis, picklad chili & chimichurri"
       }
     ],
     "Torsdag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Krispig risottobiff med tryffelmajo, rostade rotfukter & spenat"
+        "dish": "Tomat- & ostpaj med sallad på quinoa, kålrabbi & citronette"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Grillad kyckling med sotad isberg, tomater, rostad potatis & ceasarcreme"
+        "dish": "Havets wallenbergare med potatispuré, brynt smör, ärtor & citron"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Hoisinglacerade revben med ris, ingefärsmajo & krispiga grönsaker"
+        "dish": "Grillad souvlaki med tzatziki, citronrostad potatis & tomatsallad"
       }
     ],
     "Fredag": [
       {
         "category": "Green",
         "price": "115:-",
-        "dish": "Ängamat med vårprimörer, örtscones & krassesallad"
+        "dish": "Jerkkryddad aubergine med couscous, myntayoghurt & granatäpple"
       },
       {
         "category": "Local",
         "price": "115:-",
-        "dish": "Kålpudding med kokt potatis, lingon, gräddsås & persilja"
+        "dish": "Krispig fläsksida med bakat äpple, rostad potatis & senapssky"
       },
       {
         "category": "World Wide",
         "price": "115:-",
-        "dish": "Fiskgratäng med skaldjurssås, pommes duchesse & fänkålscrudité"
+        "dish": "Karaage kyckling med sataysås, ris & rostad kål"
       }
     ]
   }
