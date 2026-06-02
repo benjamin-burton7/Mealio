@@ -94,6 +94,8 @@ cd Mealio.Server
 dotnet run
 ```
 
+The backend runs the menu API.
+
 ### 2. Start the frontend
 
 Open a second terminal from the project root:
@@ -311,6 +313,38 @@ python webscraping.py smaka_pa_kina "SMAKA_PA_KINA_URL"
 python webscraping.py sony_eatery "SONY_EATERY_URL"
 ```
 
+## Automated Menu Updates
+
+The intended production workflow is:
+
+1. The Python scraper runs every Monday at 07:00.
+2. The scraper fetches the latest restaurant menus and writes updated JSON files to:
+
+```txt
+Mealio.Server/Data/Menus/
+```
+
+3. The backend menu cache expires at 08:00.
+4. The first API request after 08:00 reloads and deserializes the updated JSON files.
+5. Users see the latest menus in the frontend.
+
+The backend does not run the scraper itself. The scraper should be scheduled separately, for example with:
+
+* Windows Task Scheduler
+* cron on Linux
+* a scheduled job on the deployment platform
+* GitHub Actions, if the updated JSON files should be committed back to the repository
+
+The scraper should run before the backend cache refresh time. For example:
+
+```txt
+07:00 - Python scraper updates menu JSON files
+08:00 - Backend cache expires
+08:00+ - First user/API request reloads the fresh JSON files
+```
+
+If the scraper runs after the backend has already cached menus for the day, users may continue seeing old menu data until the next cache expiry or until the server restarts.
+
 ## Running Tests
 
 From the project root:
@@ -412,7 +446,9 @@ public/bryggan.jpg
 * Static menus use `isStatic: true` and `items`
 * Weekly menus use `days`
 * The backend caches menu files and reloads them after the configured cache expiry time
-* The scraper should run before the backend cache refresh time so users see the latest menus
+* In production, the scraper is intended to run every Monday at 07:00
+* The backend cache is intended to expire at 08:00, so the first request after 08:00 reloads the fresh JSON files
+* The backend does not run the scraper itself; the scraper must be scheduled separately
 
 ## Suggested Workflow
 
